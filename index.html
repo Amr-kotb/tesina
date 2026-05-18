@@ -1,0 +1,3049 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Tesina sui linguaggi di programmazione: teoria e pratica con progetti reali">
+    <meta name="author" content="Amr Ahmed Kotb">
+    <meta name="keywords" content="programmazione, linguaggi, C, Python, Java, Flutter, JavaScript, tesina">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta property="og:title" content="AK Coding | Linguaggi di Programmazione - Tesina">
+    <meta property="og:description" content="Dal codice macchina all'intelligenza artificiale: un viaggio attraverso i linguaggi che plasmano il mondo digitale.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/images/logo.png">
+    <meta property="og:url" content="https://akcoding.it/">
+    <title>AK Coding | Linguaggi di Programmazione - Tesina</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <style>
+        /* ============================================ */
+        /* RESET & VARIABILI GLOBALI                    */
+        /* ============================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --primary-glow: rgba(0, 212, 255, 0.3);
+            --primary-soft: rgba(0, 212, 255, 0.08);
+            --secondary: #7c3aed;
+            --secondary-dark: #5b21b6;
+            --secondary-glow: rgba(124, 58, 237, 0.3);
+            --dark-bg: #0a0a0f;
+            --dark-card: #111114;
+            --dark-surface: #1a1a1f;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border: #2a2a2f;
+            --border-light: #3a3a42;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --gradient-1: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+            --gradient-2: linear-gradient(135deg, #1a1a1f 0%, #0a0a0f 100%);
+            --gradient-card: linear-gradient(180deg, rgba(0, 212, 255, 0.03) 0%, transparent 40%);
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-2xl: 2rem;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 25px var(--primary-glow);
+            --transition-fast: 0.2s ease;
+            --transition-base: 0.3s ease;
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'Fira Code', 'Courier New', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body.preloader-active {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* ============================================ */
+        /* PRELOADER                                    */
+        /* ============================================ */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .preloader-logo {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            animation: preloaderPulse 2s ease-in-out infinite;
+        }
+
+        .preloader-logo span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .preloader-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .preloader-progress-container {
+            width: 280px;
+            max-width: 80vw;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .preloader-progress-bar {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.15s linear;
+            position: relative;
+        }
+
+        .preloader-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .preloader-counter {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .preloader-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-align: center;
+            animation: fadeText 3s ease-in-out infinite;
+        }
+
+        @keyframes preloaderPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeText {
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .preloader-dots {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .preloader-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: dotBounce 1.4s ease-in-out infinite;
+        }
+
+        .preloader-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .preloader-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotBounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.4;
+            }
+            40% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================ */
+        /* TIPOGRAFIA E UTILITY                         */
+        /* ============================================ */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            background: var(--primary-soft);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-2xl);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ============================================ */
+        /* BOTTONI                                      */
+        /* ============================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px var(--primary-glow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            background: var(--primary-soft);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline-light:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* ============================================ */
+        /* NAVIGAZIONE                                  */
+        /* ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: all var(--transition-base);
+        }
+
+        .navbar.scrolled {
+            padding: 0.65rem 0;
+            background: rgba(10, 10, 15, 0.97);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 26px;
+            height: 2.5px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all var(--transition-base);
+            display: block;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                background: rgba(17, 17, 20, 0.98);
+                backdrop-filter: blur(12px);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: left var(--transition-slow);
+                border-bottom: 1px solid var(--border);
+                box-shadow: var(--shadow-md);
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+        }
+
+        /* ============================================ */
+        /* TORNA SU                                     */
+        /* ============================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 2999;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px);
+        }
+
+        .back-to-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+        /* ============================================ */
+        /* HERO SECTION                                 */
+        /* ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 6rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(0, 212, 255, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(124, 58, 237, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary-soft);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.875rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+        }
+
+        .hero-text p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin: 1.5rem 0;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            font-family: var(--font-mono);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .code-animation {
+            background: var(--dark-card);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.1);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: var(--dark-surface);
+            border-bottom: 1px solid var(--border);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 6px;
+        }
+
+        .code-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .code-dot.red {
+            background: #ef4444;
+        }
+        .code-dot.yellow {
+            background: #f59e0b;
+        }
+        .code-dot.green {
+            background: #10b981;
+        }
+
+        .code-snippet {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            padding-top: 1.5rem;
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .code-keyword {
+            color: #c084fc;
+        }
+        .code-function {
+            color: var(--primary);
+        }
+        .code-string {
+            color: #10b981;
+        }
+        .code-method {
+            color: #f59e0b;
+        }
+        .code-comment {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2.5rem;
+            }
+            .hero-text p {
+                margin: 1.5rem auto;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .stat {
+                text-align: center;
+            }
+            .code-animation {
+                max-width: 450px;
+                margin: 0 auto;
+            }
+        }
+
+        /* ============================================ */
+        /* SEZIONE LINGUAGGI                            */
+        /* ============================================ */
+        .linguaggi {
+            padding: 6rem 0;
+            background: var(--gradient-2);
+            position: relative;
+        }
+
+        .linguaggi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 2rem;
+        }
+
+        .lang-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            transition: all var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            background: var(--gradient-card), var(--dark-card);
+        }
+
+        .lang-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-slow);
+        }
+
+        .lang-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 212, 255, 0.15);
+        }
+
+        .lang-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .lang-card:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-soft);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: transform var(--transition-base);
+        }
+
+        .lang-card:hover .card-icon {
+            transform: scale(1.08);
+        }
+
+        .card-icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .lang-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .lang-year {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .lang-description {
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .lang-description p {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .lang-description p:first-of-type {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lang-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lang-tags span {
+            background: rgba(124, 58, 237, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.75rem;
+            color: var(--secondary);
+            font-weight: 500;
+            border: 1px solid rgba(124, 58, 237, 0.15);
+        }
+
+        .lang-stats {
+            margin-top: auto;
+        }
+
+        .stat-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Tabella comparativa */
+        .tabella-confronto {
+            margin-top: 3rem;
+            background: var(--dark-card);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .tabella-confronto h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .tabella-confronto table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        .tabella-confronto th,
+        .tabella-confronto td {
+            padding: 0.85rem 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tabella-confronto th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: rgba(0, 212, 255, 0.05);
+            position: sticky;
+            top: 0;
+        }
+
+        .tabella-confronto tr:hover td {
+            background: rgba(0, 212, 255, 0.02);
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .separator-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .separator-text {
+            color: var(--primary);
+            font-size: 0.875rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .teoria-pratica-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .teoria-pratica-link {
+            text-align: center;
+            margin: 4rem 0 2rem;
+        }
+
+        /* ============================================ */
+        /* PROGETTI REALI                               */
+        /* ============================================ */
+        .progetti-reali {
+            padding: 6rem 0;
+            background: var(--dark-bg);
+        }
+
+        .progetti-reali-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
+        }
+
+        .progetto-reale-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progetto-reale-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .progetto-reale-card:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .progetto-logo {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .progetto-logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: var(--primary-soft);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem;
+            transition: transform var(--transition-base);
+        }
+
+        .progetto-reale-card:hover .progetto-logo img {
+            transform: scale(1.1);
+        }
+
+        .progetto-anteprima {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: var(--dark-surface);
+            position: relative;
+        }
+
+        .progetto-anteprima img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform var(--transition-slow);
+        }
+
+        .progetto-reale-card:hover .progetto-anteprima img {
+            transform: scale(1.04);
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 3;
+            flex-wrap: wrap;
+        }
+
+        .categoria-badge {
+            background: rgba(124, 58, 237, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--secondary);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .linguaggio-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .progetto-mio h4 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .progetto-descrizione {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tecnologie-usate {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tecnologie-usate span {
+            background: var(--primary-soft);
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--primary);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+        }
+
+        .progetto-azioni {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-progetto {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-1);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all var(--transition-base);
+            flex: 1 1 auto;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-progetto:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-progetto-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-progetto-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .progetto-link-singolo {
+            margin-top: 1rem;
+        }
+
+        .progetto-link-singolo .btn-progetto {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .progetti-reali-grid {
+                grid-template-columns: 1fr;
+            }
+            .linguaggi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================ */
+        /* MODALE PROGETTO                              */
+        /* ============================================ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 92%;
+            max-width: 800px;
+            max-height: 85vh;
+            background: var(--dark-card);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-xl);
+            z-index: 2001;
+            overflow-y: auto;
+            animation: modalSlideIn 0.35s ease;
+            box-shadow: var(--shadow-lg), 0 0 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .modal-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-container::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--dark-card);
+            z-index: 10;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-close:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-body .modal-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .modal-body h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .modal-body h4:first-of-type {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .modal-body ul {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .modal-body li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-body .code-example {
+            background: var(--dark-bg);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* ============================================ */
+        /* RISORSE                                      */
+        /* ============================================ */
+        .risorse {
+            padding: 6rem 0;
+            background: var(--gradient-2);
+        }
+
+        .risorse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .risorsa-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .risorsa-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-slow);
+        }
+
+        .risorsa-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .risorsa-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .risorsa-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-soft);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .risorsa-icon svg {
+            width: 32px;
+            height: 32px;
+            color: var(--primary);
+        }
+
+        .risorsa-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .risorsa-card p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .risorsa-links {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .risorsa-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .risorsa-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .risorsa-links a::before {
+            content: '\2192';
+            transition: transform var(--transition-fast);
+        }
+
+        .risorsa-links a:hover {
+            color: var(--primary);
+        }
+
+        .risorsa-links a:hover::before {
+            transform: translateX(4px);
+        }
+
+        /* ============================================ */
+        /* SUPPORTO E FORM                              */
+        /* ============================================ */
+        .supporto {
+            padding: 6rem 0;
+            background: var(--gradient-2);
+        }
+
+        .supporto-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .supporto-info h2 {
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .supporto-info>p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .supporto-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .feature svg {
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .supporto-tempo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-soft);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-2xl);
+            color: var(--primary);
+            font-size: 0.875rem;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+        }
+
+        .supporto-form {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+        }
+
+        .supporto-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .supporto-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .supporto-form input,
+        .supporto-form select,
+        .supporto-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all var(--transition-base);
+            font-size: 0.95rem;
+        }
+
+        .supporto-form input:focus,
+        .supporto-form select:focus,
+        .supporto-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .supporto-form input::placeholder,
+        .supporto-form textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-success {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--success);
+            font-weight: 500;
+            display: none;
+        }
+
+        @media (max-width: 968px) {
+            .supporto-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .supporto-info {
+                text-align: center;
+            }
+            .supporto-features {
+                align-items: flex-start;
+                text-align: left;
+                max-width: 350px;
+                margin: 0 auto 2rem;
+            }
+            .supporto-tempo {
+                margin: 0 auto;
+                display: flex;
+                width: fit-content;
+            }
+        }
+
+        /* ============================================ */
+        /* FOOTER                                       */
+        /* ============================================ */
+        .footer {
+            background: var(--dark-card);
+            border-top: 1px solid var(--border);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-logo p {
+            color: var(--text-secondary);
+            max-width: 300px;
+        }
+
+        .footer-links h4,
+        .footer-info h4 {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links ul,
+        .footer-info ul {
+            list-style: none;
+        }
+
+        .footer-links li,
+        .footer-info li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-info li {
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            .footer-logo p {
+                margin: 0 auto;
+            }
+        }
+
+        /* ============================================ */
+        /* CHATBOT WIDGET                               */
+        /* ============================================ */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 3000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chatbot-toggle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-base);
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .chatbot-toggle img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .chatbot-toggle .toggle-text {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chatbot-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.08);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .chatbot-toggle:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 380px;
+            max-height: 550px;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.25s ease;
+        }
+
+        .chatbot-window.hidden {
+            display: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-header {
+            padding: 1rem 1.25rem;
+            background: var(--dark-surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h4 {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .chatbot-close:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .chatbot-close:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 360px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .message {
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-md);
+            max-width: 88%;
+            word-wrap: break-word;
+            font-size: 0.85rem;
+            line-height: 1.55;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            color: var(--text-primary);
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background: rgba(124, 58, 237, 0.06);
+            border: 1px solid rgba(124, 58, 237, 0.12);
+            color: var(--text-secondary);
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .message.bot strong {
+            color: var(--primary);
+        }
+
+        .chatbot-input-area {
+            padding: 0.875rem 1rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+            background: var(--dark-surface);
+        }
+
+        .chatbot-input-area input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        .chatbot-input-area input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .chatbot-input-area button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .chatbot-input-area button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .chatbot-input-area button:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 0.5rem 0;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.2s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lang-card,
+        .progetto-reale-card,
+        .risorsa-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .lang-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .lang-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                right: -10px;
+                max-height: 70vh;
+            }
+            .chatbot-widget {
+                right: 15px;
+                bottom: 20px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body class="preloader-active">
+
+    <!-- ============================================ -->
+    <!-- PRELOADER (10 secondi)                       -->
+    <!-- ============================================ -->
+    <div class="preloader" id="preloader" role="status" aria-label="Caricamento in corso">
+        <div class="preloader-logo">AK<span>Coding</span></div>
+        <p class="preloader-title">Preparazione tesina in corso...</p>
+        <div class="preloader-progress-container">
+            <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+        </div>
+        <div class="preloader-counter" id="preloaderCounter">0%</div>
+        <p class="preloader-subtitle">Caricamento linguaggi di programmazione</p>
+        <div class="preloader-dots">
+            <span class="preloader-dot"></span>
+            <span class="preloader-dot"></span>
+            <span class="preloader-dot"></span>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- NAVIGAZIONE PRINCIPALE                       -->
+    <!-- ============================================ -->
+    <nav class="navbar" role="navigation" aria-label="Navigazione principale">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="#" aria-label="AK Coding Home">AK<span>Coding</span></a>
+            </div>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="#home" class="nav-link active" role="menuitem">Home</a></li>
+                <li role="none"><a href="materie.html" class="nav-link" role="menuitem">Materie</a></li>
+                <li role="none"><a href="chiSono.html" class="nav-link" role="menuitem">Chi Sono</a></li>
+                <a href="https://github.com/Amr-kotb/aknote/archive/refs/tags/v1.0.zip" class="btn-progetto" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Scarica progetto tesina</a>
+
+            </ul>
+            <button class="hamburger" aria-label="Menu di navigazione" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- TORNA SU                                     -->
+    <!-- ============================================ -->
+    <button class="back-to-top" id="backToTop" aria-label="Torna all'inizio della pagina" title="Torna su">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <div class="main-content">
+
+        <!-- ============================================ -->
+        <!-- SEZIONE HERO                                -->
+        <!-- ============================================ -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">Tesina di Amr Ahmed Kotb | Classe 3I</div>
+                    <h1>Linguaggi di<br>Programmazione</h1>
+                    <p>Dal codice macchina all'intelligenza artificiale: un viaggio attraverso i linguaggi che plasmano
+                        il mondo digitale. Teoria e pratica nei miei progetti reali.</p>
+                    <div class="hero-buttons">
+                        <a href="#linguaggi-importanti" class="btn btn-primary">Scopri i linguaggi</a>
+                        <a href="#miei-progetti" class="btn btn-secondary">Vedi i miei progetti</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" data-target="700">0</span>
+                            <span class="stat-label">Linguaggi esistenti</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-target="3">0</span>
+                            <span class="stat-label">Top linguaggi</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-target="7">0</span>
+                            <span class="stat-label">Progetti realizzati</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="code-animation">
+                        <div style="display:flex;gap:6px;padding-bottom:0.75rem;margin-bottom:0.5rem;">
+                            <span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span>
+                        </div>
+                        <pre class="code-snippet">
+<span class="code-keyword">function</span> <span class="code-function">createFuture</span>() {
+    <span class="code-keyword">const</span> innovation = <span class="code-string">"coding"</span>;
+    <span class="code-keyword">return</span> innovation.<span class="code-method">toUpperCase</span>();
+}
+<span class="code-keyword">console</span>.<span class="code-method">log</span>(<span class="code-function">createFuture</span>());
+<span class="code-comment">// OUTPUT: CODING</span></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SEZIONE LINGUAGGI IMPORTANTI                -->
+        <!-- ============================================ -->
+        <section id="linguaggi-importanti" class="linguaggi">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">I fondamenti della programmazione</span>
+                    <h2>I linguaggi piu' importanti della storia</h2>
+                    <p>Esistono oltre 700 linguaggi di programmazione, ma questi tre hanno plasmato l'informatica
+                        moderna. <strong>Clicca su ogni card per approfondire</strong>.</p>
+                </div>
+
+                <div class="linguaggi-grid">
+                    <!-- Linguaggio C -->
+                    <div class="lang-card" data-lang="c" tabindex="0" role="button" aria-label="Approfondisci linguaggio C">
+                        <div class="card-icon"><img src="/images/c.png" alt="Logo C" loading="lazy"></div>
+                        <h3>C</h3>
+                        <p class="lang-year">1972 | Dennis Ritchie (Bell Labs)</p>
+                        <div class="lang-description">
+                            <p>Il "padre" dei linguaggi moderni</p>
+                            <p>Il C e' un linguaggio di programmazione procedurale, noto per la sua efficienza e il controllo diretto sulla memoria. Sviluppato per scrivere il sistema operativo UNIX.</p>
+                        </div>
+                        <div class="lang-tags"><span>Compilato</span><span>System Programming</span><span>Low Level</span></div>
+                        <div class="lang-stats"><div class="stat-bar"><div class="stat-fill" style="width: 95%"></div></div><div class="stats-row"><span>Performance: 95%</span><span>TIOBE Index: #2</span></div></div>
+                    </div>
+                    <!-- Linguaggio Python -->
+                    <div class="lang-card" data-lang="python" tabindex="0" role="button" aria-label="Approfondisci linguaggio Python">
+                        <div class="card-icon"><img src="/images/python.png" alt="Logo Python" loading="lazy"></div>
+                        <h3>Python</h3>
+                        <p class="lang-year">1991 | Guido van Rossum</p>
+                        <div class="lang-description">
+                            <p>Il linguaggio piu' versatile del momento</p>
+                            <p>Python si distingue per la sua sintassi chiara e leggibile, ideale per principianti e professionisti. Dominante nell'AI, Data Science e sviluppo web.</p>
+                        </div>
+                        <div class="lang-tags"><span>Interpretato</span><span>AI & Data Science</span><span>High Level</span></div>
+                        <div class="lang-stats"><div class="stat-bar"><div class="stat-fill" style="width: 98%"></div></div><div class="stats-row"><span>Popolarita': 98%</span><span>#1 su GitHub</span></div></div>
+                    </div>
+                    <!-- Linguaggio Java -->
+                    <div class="lang-card" data-lang="java" tabindex="0" role="button" aria-label="Approfondisci linguaggio Java">
+                        <div class="card-icon"><img src="/images/java.png" alt="Logo Java" loading="lazy"></div>
+                        <h3>Java</h3>
+                        <p class="lang-year">1995 | James Gosling (Sun Microsystems)</p>
+                        <div class="lang-description">
+                            <p>Write Once, Run Anywhere</p>
+                            <p>Java ha introdotto la JVM, permettendo ai programmi di funzionare su qualsiasi piattaforma. Standard per applicazioni enterprise e Android.</p>
+                        </div>
+                        <div class="lang-tags"><span>JVM</span><span>Enterprise</span><span>OOP</span></div>
+                        <div class="lang-stats"><div class="stat-bar"><div class="stat-fill" style="width: 85%"></div></div><div class="stats-row"><span>Adozione Enterprise: 85%</span><span>3+ miliardi di dispositivi</span></div></div>
+                    </div>
+                </div>
+
+                <!-- Tabella comparativa -->
+                <div class="tabella-confronto" role="region" aria-label="Tabella comparativa linguaggi">
+                    <h3>Confronto sintetico dei tre linguaggi</h3>
+                    <table>
+                        <thead><tr><th>Caratteristica</th><th>C</th><th>Python</th><th>Java</th></tr></thead>
+                        <tbody>
+                            <tr><td>Paradigma</td><td>Procedurale</td><td>Multi-paradigma</td><td>OOP</td></tr>
+                            <tr><td>Tipizzazione</td><td>Statico</td><td>Dinamico</td><td>Statico</td></tr>
+                            <tr><td>Gestione memoria</td><td>Manuale</td><td>Automatica (GC)</td><td>Automatica (GC)</td></tr>
+                            <tr><td>Velocita' esecuzione</td><td>Molto alta</td><td>Media</td><td>Alta</td></tr>
+                            <tr><td>Curva apprendimento</td><td>Ripida</td><td>Dolce</td><td>Media</td></tr>
+                            <tr><td>Campo d'uso principale</td><td>Sistemi, Embedded</td><td>AI, Data Science</td><td>Enterprise, Android</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="teoria-pratica-link">
+                    <div class="separator"><span class="separator-line"></span><span class="separator-text">DALLA TEORIA ALLA PRATICA</span><span class="separator-line"></span></div>
+                    <p class="teoria-pratica-desc">Questi sono i linguaggi che hanno fatto la storia. Ora vediamo come ho applicato i concetti appresi in progetti reali.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SEZIONE PROGETTI REALI                      -->
+        <!-- ============================================ -->
+        <section id="miei-progetti" class="progetti-reali">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">I miei progetti reali</span>
+                    <h2>I linguaggi che ho utilizzato</h2>
+                    <p>Teoria e pratica si incontrano: ecco come ho applicato i concetti appresi in progetti concreti.
+                        <strong>Clicca su ogni card per vedere i dettagli</strong>.</p>
+                </div>
+                <div class="progetti-reali-grid">
+
+                    <!-- Progetto AKnote (Flutter/Dart) -->
+                    <div class="progetto-reale-card" data-project="flutter" tabindex="0" role="button" aria-label="Dettagli progetto AKnote">
+                        <div class="progetto-logo">
+                            <img src="/images/dartFlutter.png" alt="Flutter e Dart Logo" loading="lazy">
+                        </div>
+                        <div class="progetto-anteprima">
+                            <img src="/images/aknote-poster.jpg" alt="Anteprima AKnote App" loading="lazy">
+                        </div>
+                        <div class="card-header">
+                            <h3>Dart + Flutter</h3>
+                            <span class="categoria-badge">Applicazione Mobile</span>
+                        </div>
+                        <div class="card-content">
+                            <p class="linguaggio-desc">Framework cross-platform per iOS, Android, Web e Desktop con un'unica base di codice.</p>
+                            <div class="progetto-mio">
+                                <h4>AKnote</h4>
+                                <p class="progetto-descrizione">Applicazione per la gestione delle attivita' quotidiane realizzata con Flutter e Dart. Funziona su iOS e Android con una singola base di codice.</p>
+                                <div class="tecnologie-usate">
+                                    <span>Flutter</span><span>Dart</span><span>Firebase</span><span>Provider</span>
+                                </div>
+                                <div class="progetto-azioni">
+                                    <a href="https://github.com/Amr-kotb/aknote/archive/refs/tags/v1.0.zip" class="btn-progetto" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Codice sorgente</a>
+                                    <a href="https://github.com/Amr-kotb/aknote/releases/download/v1.0/app-release.apk" class="btn-progetto btn-progetto-outline" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Scarica APK</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progetto Task Gariboldi (JavaScript/Recart) -->
+                    <div class="progetto-reale-card" data-project="recart" tabindex="0" role="button" aria-label="Dettagli progetto Task Gariboldi">
+                        <div class="progetto-logo">
+                            <img src="/images/recartJS.png" alt="Recart e JavaScript Logo" loading="lazy">
+                        </div>
+                        <div class="progetto-anteprima">
+                            <img src="/images/taskG.png" alt="Anteprima Task Gariboldi" loading="lazy">
+                        </div>
+                        <div class="card-header">
+                            <h3>JavaScript + Recart</h3>
+                            <span class="categoria-badge">Portale Aziendale</span>
+                        </div>
+                        <div class="card-content">
+                            <p class="linguaggio-desc">Piattaforma per gestionali aziendali, portali clienti e dashboard interattive.</p>
+                            <div class="progetto-mio">
+                                <h4>Portale task aziendale</h4>
+                                <p class="progetto-descrizione">Portale gestionale per azienda con dashboard interattiva, gestione task, clienti, dipendenti e reportistica in tempo reale.</p>
+                                <div class="tecnologie-usate">
+                                    <span>JavaScript</span><span>Recart</span><span>Node.js</span><span>Firebase</span><span>JSON/ENV</span>
+                                </div>
+                                <div class="progetto-link-singolo">
+                                    <a href="https://taskg.netlify.app/" class="btn-progetto" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Vedi il progetto</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progetto Portfolio (HTML/CSS) -->
+                    <div class="progetto-reale-card" data-project="website" tabindex="0" role="button" aria-label="Dettagli progetto Portfolio">
+                        <div class="progetto-logo">
+                            <img src="/images/htmlcss.png" alt="HTML e CSS Logo" loading="lazy">
+                        </div>
+                        <div class="progetto-anteprima">
+                            <img src="/images/akstore.png" alt="Anteprima Portfolio" loading="lazy">
+                        </div>
+                        <div class="card-header">
+                            <h3>HTML, CSS</h3>
+                            <span class="categoria-badge">Sito Web</span>
+                        </div>
+                        <div class="card-content">
+                            <p class="linguaggio-desc">Le fondamenta del web: struttura, stile e interattivita' per siti moderni e responsive.</p>
+                            <div class="progetto-mio">
+                                <h4>Portfolio Creativo</h4>
+                                <p class="progetto-descrizione">Sito web responsive con animazioni CSS avanzate e interattivita' per presentare progetti e competenze.</p>
+                                <div class="tecnologie-usate">
+                                    <span>HTML</span><span>CSS</span>
+                                </div>
+                                <div class="progetto-link-singolo">
+                                    <a href="https://akhop.netlify.app/" class="btn-progetto" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();">Vedi il progetto</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SEZIONE RISORSE                             -->
+        <!-- ============================================ -->
+        <section id="risorse" class="risorse">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Approfondisci</span>
+                    <h2>Risorse e Materiali</h2>
+                    <p>Strumenti, documentazione e riferimenti utili per approfondire i linguaggi di programmazione.</p>
+                </div>
+                <div class="risorse-grid">
+                    <div class="risorsa-card">
+                        <div class="risorsa-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                        <h3>Documentazione Ufficiale</h3>
+                        <p>Guide, manuali e reference ufficiali per ogni linguaggio.</p>
+                        <ul class="risorsa-links">
+                            <li><a href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer">Python Docs</a></li>
+                            <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer">MDN Web Docs</a></li>
+                            <li><a href="https://docs.oracle.com/en/java/" target="_blank" rel="noopener noreferrer">Java Docs</a></li>
+                            <li><a href="https://flutter.dev/docs" target="_blank" rel="noopener noreferrer">Flutter Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="risorsa-card">
+                        <div class="risorsa-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5-4 8-10 8-1.5 0-3-.4-4-1-2 1-4 1-5 1 1-1 2-3 2-4-1-1-2-3-2-5 0-5 4-10 10-10z"/></svg></div>
+                        <h3>Community e Forum</h3>
+                        <p>Luoghi dove gli sviluppatori si confrontano.</p>
+                        <ul class="risorsa-links">
+                            <li><a href="https://stackoverflow.com/" target="_blank" rel="noopener noreferrer">Stack Overflow</a></li>
+                            <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></li>
+                            <li><a href="https://flutter.dev/community" target="_blank" rel="noopener noreferrer">Flutter Community</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SEZIONE SUPPORTO                            -->
+        <!-- ============================================ -->
+        <section id="supporto" class="supporto">
+            <div class="container">
+                <div class="supporto-wrapper">
+                    <div class="supporto-info">
+                        <span class="section-tag">Hai bisogno di aiuto?</span>
+                        <h2>Supporto e Assistenza</h2>
+                        <p>Hai domande sui linguaggi? Vuoi approfondire un argomento? Scrivimi, ti rispondero' al piu' presto.</p>
+                        <div class="supporto-features">
+                            <div class="feature"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Domande sui linguaggi di programmazione</span></div>
+                            <div class="feature"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Richiesta materiale e approfondimenti</span></div>
+                        </div>
+                        <div class="supporto-tempo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Risposta entro 24-48 ore</span></div>
+                    </div>
+                    <form class="supporto-form" id="supportoForm" action="https://formspree.io/f/mdapoedg" method="POST" novalidate>
+                        <div class="form-group"><label for="name">Nome e Cognome</label><input type="text" id="name" name="name" placeholder="Nome completo" required autocomplete="name"></div>
+                        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="tesina@esempio.it" required autocomplete="email"></div>
+                        <div class="form-group">
+                            <label for="argomento">Argomento</label>
+                            <select id="argomento" name="argomento" required>
+                                <option value="" disabled selected>Seleziona un argomento</option>
+                                <option value="linguaggi">Domande sui linguaggi</option>
+                                <option value="concetti">Concetti teorici</option>
+                                <option value="progetti">Domande sui progetti</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label for="messaggio">Messaggio</label><textarea id="messaggio" name="messaggio" rows="4" placeholder="Scrivi qui la tua domanda..." required></textarea></div>
+                        <button type="submit" class="btn btn-primary btn-full">Invia domanda</button>
+                        <p class="form-success" id="formSuccess" role="status">Messaggio inviato con successo!</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- FOOTER                                      -->
+        <!-- ============================================ -->
+        <footer class="footer" role="contentinfo">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-logo"><h3>AK<span>Coding</span></h3><p>Progetto tesina sui linguaggi di programmazione. Teoria e pratica in un unico progetto educativo.</p></div>
+                    <div class="footer-links"><h4>Navigazione</h4><ul><li><a href="#home">Home</a></li><li><a href="#linguaggi-importanti">Linguaggi Storici</a></li><li><a href="#miei-progetti">I Miei Progetti</a></li><li><a href="#risorse">Risorse</a></li><li><a href="materie.html">Materie</a></li></ul></div>
+                    <div class="footer-info"><h4>Informazioni</h4><ul><li>Tesina di: Amr Ahmed Kotb</li><li>Anno Scolastico: 2025/2026</li><li>Classe: 3I</li></ul></div>
+                </div>
+                <div class="footer-bottom"><p>&copy; 2026 AK Coding - Progetto Educativo per Tesina | Licenza Creative Commons</p></div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CHATBOT WIDGET                               -->
+    <!-- ============================================ -->
+    <div class="chatbot-widget" id="chatbotWidget" role="complementary" aria-label="Assistente virtuale">
+        <button class="chatbot-toggle" id="chatbotToggle" title="Chiedi all'assistente AI" aria-label="Apri assistente AI">
+            <img src="/images/ai.png" alt="AI Assistant" onerror="this.style.display='none'; this.parentElement.querySelector('.toggle-text').style.display='block';">
+            <span class="toggle-text" style="display:none;">AI</span>
+        </button>
+        <div class="chatbot-window hidden" id="chatbotWindow" role="dialog" aria-label="Finestra chat assistente">
+            <div class="chatbot-header">
+                <h4>Assistente Linguaggi di Programmazione</h4>
+                <button class="chatbot-close" id="chatbotClose" aria-label="Chiudi assistente">x</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    Ciao! Sono un assistente specializzato in linguaggi di programmazione.<br><br>
+                    Posso aiutarti con Python, Java, C/C++, JavaScript, OOP e molto altro.<br><br>
+                    Digita <strong>aiuto</strong> per tutti gli argomenti<br>
+                    <strong>dimmi di piu'</strong> - approfondisce<br>
+                    <strong>cosa mi hai detto prima</strong> - mostra ultima risposta
+                </div>
+            </div>
+            <div class="chatbot-input-area">
+                <input type="text" id="chatbotInput" placeholder="Scrivi una domanda..." aria-label="Inserisci la tua domanda">
+                <button id="chatbotSend" aria-label="Invia messaggio">Invia</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCRIPT: PRELOADER, MODALE, INTERAZIONI, CHAT -->
+    <!-- ============================================ -->
+    <script>
+        (function() {
+            // --------------------------------------------------------
+            // 0. PRELOADER (10 secondi)
+            // --------------------------------------------------------
+            const preloader = document.getElementById('preloader');
+            const progressBar = document.getElementById('preloaderProgressBar');
+            const counterEl = document.getElementById('preloaderCounter');
+            const DURATION = 10000; // 10 secondi
+            const startTime = Date.now();
+
+            function updatePreloader() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / DURATION * 100, 100);
+                progressBar.style.width = progress + '%';
+                counterEl.textContent = Math.round(progress) + '%';
+
+                if (elapsed < DURATION) {
+                    requestAnimationFrame(updatePreloader);
+                } else {
+                    // Completamento
+                    progressBar.style.width = '100%';
+                    counterEl.textContent = '100%';
+                    setTimeout(hidePreloader, 300);
+                }
+            }
+
+            function hidePreloader() {
+                preloader.classList.add('hidden');
+                document.body.classList.remove('preloader-active');
+                // Rimuovi il preloader dal DOM dopo la transizione
+                setTimeout(() => {
+                    if (preloader && preloader.parentNode) {
+                        preloader.remove();
+                    }
+                }, 700);
+            }
+
+            // Avvia l'animazione del preloader
+            requestAnimationFrame(updatePreloader);
+
+            // --------------------------------------------------------
+            // 1. DATI PER LE MODALI
+            // --------------------------------------------------------
+            const languageDetails = {
+                c: {
+                    title: "Linguaggio C - Approfondimento",
+                    content: `
+                    <h4>Contesto Storico</h4>
+                    <p>Il linguaggio C fu sviluppato da Dennis Ritchie presso i Bell Labs tra il 1969 e il 1973. Nasce dall'esigenza di riscrivere il sistema operativo UNIX, inizialmente scritto in assembly.</p>
+                    <h4>Caratteristiche Tecniche</h4>
+                    <ul>
+                        <li><strong>Compilato</strong> - Il codice viene tradotto direttamente in linguaggio macchina</li>
+                        <li><strong>Gestione manuale della memoria</strong> - Utilizzo di malloc() e free()</li>
+                        <li><strong>Puntatori</strong> - Accesso diretto agli indirizzi di memoria</li>
+                    </ul>
+                    <h4>Esempio di Codice</h4>
+                    <pre class="code-example">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int *arr = (int*)malloc(5 * sizeof(int));
+    if (arr == NULL) return 1;
+    for(int i = 0; i < 5; i++) arr[i] = i * 10;
+    free(arr);
+    return 0;
+}</pre>
+                `
+                },
+                python: {
+                    title: "Linguaggio Python - Approfondimento",
+                    content: `
+                    <h4>Contesto Storico</h4>
+                    <p>Python fu creato da Guido van Rossum e rilasciato nel 1991. Il nome deriva dal gruppo comico "Monty Python".</p>
+                    <h4>Caratteristiche Tecniche</h4>
+                    <ul>
+                        <li><strong>Interpretato</strong> - Esecuzione tramite interprete</li>
+                        <li><strong>Tipizzazione dinamica</strong> - Le variabili non hanno tipo fisso</li>
+                        <li><strong>Multi-paradigma</strong> - Supporta OOP, funzionale e procedurale</li>
+                    </ul>
+                    <h4>Esempio di Codice</h4>
+                    <pre class="code-example">numeri = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+quadrati_pari = [n**2 for n in numeri if n % 2 == 0]
+print(f"Quadrati dei numeri pari: {quadrati_pari}")</pre>
+                `
+                },
+                java: {
+                    title: "Linguaggio Java - Approfondimento",
+                    content: `
+                    <h4>Contesto Storico</h4>
+                    <p>Java fu sviluppato da James Gosling alla Sun Microsystems, rilasciato nel 1995. Il motto e' "Write Once, Run Anywhere".</p>
+                    <h4>Caratteristiche Tecniche</h4>
+                    <ul>
+                        <li><strong>JVM</strong> - Java Virtual Machine esegue il bytecode</li>
+                        <li><strong>OOP puro</strong> - Tutto e' un oggetto</li>
+                        <li><strong>Garbage Collection</strong> - Gestione automatica della memoria</li>
+                    </ul>
+                    <h4>Esempio di Codice</h4>
+                    <pre class="code-example">public class Studente {
+    private String nome;
+    private int eta;
+    
+    public Studente(String nome, int eta) {
+        this.nome = nome;
+        this.eta = eta;
+    }
+    
+    public void presentati() {
+        System.out.println("Ciao, sono " + nome);
+    }
+}</pre>
+                `
+                }
+            };
+
+            const projectDetails = {
+                flutter: {
+                    title: "AKnote - App per la gestione delle attivita'",
+                    image: "/images/aknote-poster.jpg",
+                    content: `
+                    <h4>Descrizione del Progetto</h4>
+                    <p>AKnote e' un'applicazione mobile per la gestione delle note e delle attivita' quotidiane, sviluppata con Flutter e Dart. Funziona su iOS e Android con un'unica base di codice.</p>
+                    <h4>Tecnologie Utilizzate</h4>
+                    <ul><li>Flutter</li><li>Dart</li><li>Firebase</li><li>Provider</li></ul>
+                    <h4>Funzionalita'</h4>
+                    <ul><li>Registrazione e login</li><li>CRUD task</li><li>Sincronizzazione cloud</li></ul>
+                `
+                },
+                recart: {
+                    title: "Task Gariboldi - Portale gestionale aziendale",
+                    image: "/images/taskG.png",
+                    content: `
+                    <h4>Descrizione del Progetto</h4>
+                    <p>Portale gestionale per azienda con dashboard interattiva, gestione task, clienti e dipendenti. Include reportistica personalizzata ed esportazione dati.</p>
+                    <h4>Tecnologie Utilizzate</h4>
+                    <ul><li>JavaScript</li><li>Recart</li><li>Node.js</li><li>Firebase</li><li>JSON/ENV</li></ul>
+                    <h4>Funzionalita'</h4>
+                    <ul><li>Dashboard per ruoli</li><li>Export report PDF/Excel</li><li>Autenticazione</li></ul>
+                `
+                },
+                website: {
+                    title: "Portfolio Creativo - Sito Web Professionale",
+                    image: "/images/akstore.png",
+                    content: `
+                    <h4>Descrizione del Progetto</h4>
+                    <p>Sito web responsive con animazioni CSS avanzate per presentare progetti e competenze. Design moderno e ottimizzato per i motori di ricerca.</p>
+                    <h4>Tecnologie Utilizzate</h4>
+                    <ul><li>HTML5</li><li>CSS3</li></ul>
+                    <h4>Caratteristiche</h4>
+                    <ul><li>Design responsive</li><li>Animazioni CSS</li><li>SEO ottimizzato</li></ul>
+                `
+                }
+            };
+
+            // --------------------------------------------------------
+            // 2. GESTIONE MODALE
+            // --------------------------------------------------------
+            let modalOverlay = null,
+                modalContainer = null;
+            let lastFocusedElement = null;
+
+            function closeModal() {
+                if (modalOverlay) modalOverlay.remove();
+                if (modalContainer) modalContainer.remove();
+                modalOverlay = null;
+                modalContainer = null;
+                document.body.classList.remove('modal-open');
+                if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                    lastFocusedElement.focus();
+                }
+            }
+
+            function openModal(title, content, imageUrl = null) {
+                closeModal();
+                lastFocusedElement = document.activeElement;
+                modalOverlay = document.createElement('div');
+                modalOverlay.className = 'modal-overlay';
+                modalOverlay.setAttribute('role', 'dialog');
+                modalOverlay.setAttribute('aria-modal', 'true');
+                modalOverlay.setAttribute('aria-label', title);
+                modalContainer = document.createElement('div');
+                modalContainer.className = 'modal-container';
+                let imageHtml = imageUrl ? `<img src="${imageUrl}" alt="Anteprima del progetto" class="modal-image" loading="lazy">` : '';
+                modalContainer.innerHTML = `
+                <div class="modal-header">
+                    <h3>${title}</h3>
+                    <button class="modal-close" aria-label="Chiudi modale">x</button>
+                </div>
+                <div class="modal-body">
+                    ${imageHtml}
+                    ${content}
+                </div>
+            `;
+                document.body.appendChild(modalOverlay);
+                document.body.appendChild(modalContainer);
+                document.body.classList.add('modal-open');
+
+                const closeBtn = modalContainer.querySelector('.modal-close');
+                closeBtn.addEventListener('click', closeModal);
+                modalOverlay.addEventListener('click', closeModal);
+
+                // Focus sul bottone di chiusura
+                setTimeout(() => closeBtn.focus(), 100);
+
+                function escHandler(e) {
+                    if (e.key === 'Escape') {
+                        closeModal();
+                        document.removeEventListener('keydown', escHandler);
+                    }
+                }
+                document.addEventListener('keydown', escHandler);
+            }
+
+            // Click su card linguaggi
+            document.querySelectorAll('.lang-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const lang = card.getAttribute('data-lang');
+                    if (lang && languageDetails[lang]) {
+                        openModal(languageDetails[lang].title, languageDetails[lang].content);
+                    }
+                });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
+                });
+            });
+
+            // Click su card progetti
+            document.querySelectorAll('.progetto-reale-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('a') || e.target.closest('button')) return;
+                    const project = card.getAttribute('data-project');
+                    if (project && projectDetails[project]) {
+                        const dettaglio = projectDetails[project];
+                        openModal(dettaglio.title, dettaglio.content, dettaglio.image);
+                    }
+                });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.target.closest('a') || e.target.closest('button')) return;
+                        e.preventDefault();
+                        card.click();
+                    }
+                });
+            });
+
+            // --------------------------------------------------------
+            // 3. MENU HAMBURGER MOBILE
+            // --------------------------------------------------------
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    const isActive = navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                    hamburger.setAttribute('aria-expanded', isActive);
+                });
+
+                // Chiudi menu cliccando su un link
+                navMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        hamburger.classList.remove('active');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // --------------------------------------------------------
+            // 4. EFFETTO SCROLL SULLA NAVBAR
+            // --------------------------------------------------------
+            const navbar = document.querySelector('.navbar');
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                if (scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                // Torna su visibilità
+                if (scrollY > 400) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            }, { passive: true });
+
+            // Torna su click
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // --------------------------------------------------------
+            // 5. ANIMAZIONE CONTATORI STATISTICHE
+            // --------------------------------------------------------
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const countedStats = new Set();
+
+            function animateNumbers() {
+                statNumbers.forEach(stat => {
+                    if (countedStats.has(stat)) return;
+                    const target = parseInt(stat.getAttribute('data-target'));
+                    if (!target && target !== 0) return;
+                    const rect = stat.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 50 && rect.bottom > 0) {
+                        countedStats.add(stat);
+                        let current = 0;
+                        const duration = 1500;
+                        const steps = 60;
+                        const increment = target / steps;
+                        const interval = duration / steps;
+                        let step = 0;
+
+                        function stepCounter() {
+                            step++;
+                            current = Math.min(increment * step, target);
+                            stat.textContent = Math.floor(current).toLocaleString();
+                            if (step < steps) {
+                                setTimeout(stepCounter, interval);
+                            } else {
+                                stat.textContent = target.toLocaleString();
+                            }
+                        }
+                        stepCounter();
+                    }
+                });
+            }
+            window.addEventListener('scroll', animateNumbers, { passive: true });
+            // Esegui dopo che il preloader è scomparso
+            setTimeout(animateNumbers, DURATION + 500);
+
+            // --------------------------------------------------------
+            // 6. INVIO FORM SUPPORTO (AJAX)
+            // --------------------------------------------------------
+            const form = document.getElementById('supportoForm');
+            const successDiv = document.getElementById('formSuccess');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Invio in corso...';
+                    submitBtn.disabled = true;
+                    try {
+                        const formData = new FormData(form);
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (response.ok) {
+                            successDiv.style.display = 'block';
+                            form.reset();
+                            setTimeout(() => { successDiv.style.display = 'none'; }, 5000);
+                        } else {
+                            throw new Error('Errore nella risposta del server');
+                        }
+                    } catch (error) {
+                        alert('Errore durante l\'invio. Riprova piu\' tardi.');
+                    } finally {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+
+            // --------------------------------------------------------
+            // 7. SMOOTH SCROLL PER ANCORE INTERNE
+            // --------------------------------------------------------
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        const navHeight = navbar.offsetHeight;
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset -
+                            navHeight - 10;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        if (navMenu && navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            hamburger.classList.remove('active');
+                            hamburger.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+            });
+
+            // --------------------------------------------------------
+            // 8. ANIMAZIONE BARRE STATISTICHE LINGUAGGI
+            // --------------------------------------------------------
+            const statBars = document.querySelectorAll('.stat-fill');
+            const animatedBars = new Set();
+
+            function animateStatBars() {
+                statBars.forEach(bar => {
+                    if (animatedBars.has(bar)) return;
+                    const rect = bar.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 30 && rect.bottom > 0) {
+                        animatedBars.add(bar);
+                        const targetWidth = bar.style.width;
+                        bar.style.width = '0';
+                        bar.style.transition = 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                bar.style.width = targetWidth;
+                            });
+                        });
+                    }
+                });
+            }
+            window.addEventListener('scroll', animateStatBars, { passive: true });
+            setTimeout(animateStatBars, DURATION + 300);
+
+            // --------------------------------------------------------
+            // 9. EVIDENZIA LINK ATTIVO NELLA NAV
+            // --------------------------------------------------------
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                const scrollPosition = window.scrollY + 120;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href === `#${current}`) {
+                        link.classList.add('active');
+                    } else if (current === '' && href === '#home') {
+                        link.classList.add('active');
+                    }
+                });
+            }, { passive: true });
+
+            // --------------------------------------------------------
+            // 10. CHATBOT AI
+            // --------------------------------------------------------
+            (function() {
+                const KNOWLEDGE_BASE = [
+                    { keywords: ["ciao", "salve", "buongiorno", "hey", "buonasera"],
+                        response: "Ciao! Sono un assistente specializzato in linguaggi di programmazione. Digita 'aiuto' per tutti gli argomenti." },
+                    { keywords: ["aiuto", "help", "cosa sai fare", "argomenti"],
+                        response: "ARGOMENTI: Python, Java, C, C++, JavaScript, OOP, Compilato/Interpretato, Framework, API, Git, Frontend/Backend.\n\nComandi speciali:\n- 'dimmi di piu'' - approfondisce l'ultimo argomento\n- 'cosa mi hai detto prima' - mostra l'ultima risposta" },
+                    { keywords: ["grazie", "grazie mille", "thank"],
+                    response: "Prego! Chiedimi pure altro sui linguaggi di programmazione." },
+                    { keywords: ["linguaggio programmazione", "cos'è un linguaggio", "linguaggio di programmazione"],
+                        response: "Un linguaggio di programmazione e' un insieme di regole sintattiche e semantiche per scrivere istruzioni che un computer puo' eseguire. Esistono oltre 700 linguaggi, dai piu' noti come Python e Java a quelli di nicchia." },
+                    { keywords: ["differenza compilato interpretato", "compilato", "interpretato"],
+                        response: "COMPILATO (C, C++): il codice sorgente viene tradotto in linguaggio macchina prima dell'esecuzione. Piu' VELOCE, meno flessibile.\n\nINTERPRETATO (Python, JS): il codice viene eseguito riga per riga da un interprete. Piu' FLESSIBILE, ma piu' lento." },
+                    { keywords: ["frontend", "backend", "full stack"],
+                        response: "FRONTEND: cio' che l'utente vede e con cui interagisce (HTML, CSS, JavaScript).\n\nBACKEND: logica lato server, database, API (Python, Java, Node.js).\n\nFULL STACK: chi lavora su entrambi i lati." },
+                    { keywords: ["git", "github", "version control"],
+                        response: "Git e' un sistema di controllo versione distribuito che tiene traccia delle modifiche al codice. GitHub e' una piattaforma cloud che ospita repository Git e facilita la collaborazione tra sviluppatori." },
+                    { keywords: ["quale linguaggio studiare", "primo linguaggio", "iniziare"],
+                        response: "Python e' il piu' consigliato per iniziare: sintassi semplice, leggibile e versatile. Con Python puoi fare AI, Data Science, Web, automazione. Dopo Python, JavaScript per il web e C per capire come funziona il computer a basso livello." },
+                    { keywords: ["quanto tempo", "tempo per imparare", "imparare a programmare"],
+                        response: "Dipende dall'impegno:\n- Basi solide: 2-3 mesi\n- Autonomia: 6-12 mesi\n- Pronto per lavoro junior: 1-2 anni\n- Senior/Esperto: 3-5+ anni\n\nLa pratica costante e' la chiave!" },
+                    { keywords: ["python"],
+                        response: "Python (1991, Guido van Rossum) - Linguaggio interpretato, sintassi pulita e leggibile. Usato massicciamente per AI, Machine Learning, Data Science, automazione e sviluppo web con framework come Django e Flask." },
+                    { keywords: ["java"],
+                        response: "Java (1995, James Gosling) - 'Write Once, Run Anywhere' grazie alla JVM. Linguaggio OOP robusto usato per applicazioni enterprise, Android, sistemi bancari e grandi piattaforme. Oltre 3 miliardi di dispositivi lo eseguono." },
+                    { keywords: ["c", "linguaggio c"],
+                        response: "C (1972, Dennis Ritchie) - Linguaggio procedurale a basso livello. Ha influenzato quasi tutti i linguaggi moderni. Usato per sistemi operativi, driver, embedded e software che richiedono massime performance." },
+                    { keywords: ["c++"],
+                        response: "C++ (1985, Bjarne Stroustrup) - Evoluzione del C con supporto alla programmazione orientata agli oggetti. Usato per videogiochi (Unreal Engine), browser (Chrome), software CAD e applicazioni ad alte prestazioni." },
+                    { keywords: ["javascript", "js"],
+                        response: "JavaScript (1995, Brendan Eich) - Il linguaggio del web! Eseguito nativamente da tutti i browser. Con Node.js puoi usarlo anche lato server. Framework popolari: React, Vue, Angular, Next.js." },
+                    { keywords: ["oop", "orientato agli oggetti", "programmazione orientata"],
+                        response: "OOP - 4 pilastri fondamentali:\n1. INCAPSULAMENTO: nascondere i dati interni\n2. EREDITARIETA': creare classi derivate\n3. POLIMORFISMO: stesso metodo, comportamenti diversi\n4. ASTRAZIONE: mostrare solo cio' che serve" },
+                    { keywords: ["framework", "libreria", "differenza framework libreria"],
+                        response: "LIBRERIA: tu chiami le sue funzioni quando ti servono (es. React, lodash).\n\nFRAMEWORK: e' lui che chiama il tuo codice seguendo la sua struttura (es. Angular, Django). Si parla di 'inversione del controllo'." },
+                    { keywords: ["api", "rest", "rest api"],
+                        response: "API (Application Programming Interface) permette a due software di comunicare. Le REST API usano i metodi HTTP:\n- GET: leggere dati\n- POST: creare dati\n- PUT: aggiornare dati\n- DELETE: cancellare dati" }
+                ];
+
+                const BLACKLIST = ["calcio", "sport", "politica", "film", "musica", "cucina", "ricetta", "meteo",
+                    "serie tv", "videogiochi"
+                ];
+                let ultimoArgomento = null;
+                let storico = [];
+
+                function normalizza(text) {
+                    return text.toLowerCase()
+                        .replace(/[àá]/g, 'a').replace(/[èé]/g, 'e').replace(/[ìí]/g, 'i')
+                        .replace(/[òó]/g, 'o').replace(/[ùú]/g, 'u')
+                        .replace(/[^\w\s]/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                }
+
+                function contieneNegazione(text) {
+                    return ["non e'", "non è", "non sia", "ma non"].some(neg => text.includes(neg));
+                }
+
+                function ePertinente(text) {
+                    const saluti = ["ciao", "salve", "aiuto", "grazie", "help", "hey"];
+                    if (saluti.some(w => text.includes(w))) return true;
+                    if (BLACKLIST.some(b => text.includes(b))) return false;
+                    const techKeywords = ["linguaggio", "programmazione", "python", "java", "javascript", "c++",
+                        "oop", "api", "git", "framework", "frontend", "backend", "codice", "compilato",
+                        "interpretato", "web", "mobile", "flutter", "dart", "html", "css"
+                    ];
+                    return techKeywords.some(k => text.includes(k));
+                }
+
+                function trovaRisposta(domanda) {
+                    const domandaNorm = normalizza(domanda);
+
+                    if (domandaNorm.length < 2) return "Scrivi una domanda piu' completa. Prova con 'aiuto' per vedere gli argomenti.";
+
+                    if (contieneNegazione(domandaNorm))
+                        return "Ho notato una negazione nella tua domanda. Puoi riformulare in modo positivo? Ad esempio: 'cos'e' Python?'";
+
+                    if (!ePertinente(domandaNorm))
+                        return "Sono specializzato solo in linguaggi di programmazione e temi correlati. Prova a chiedermi di Python, Java, C++, OOP, API, Git o digita 'aiuto' per tutti gli argomenti.";
+
+                    if ((domandaNorm.includes("dimmi di piu") || domandaNorm.includes("approfondisci")) &&
+                        ultimoArgomento) {
+                        return "APPROFONDIMENTO:\n\n" + ultimoArgomento;
+                    }
+
+                    if ((domandaNorm.includes("cosa mi hai detto prima") || domandaNorm.includes("ultima risposta") ||
+                            domandaNorm.includes("ripeti")) && storico.length) {
+                        return "ULTIMA RISPOSTA:\n\n" + storico[storico.length - 1];
+                    }
+
+                    let bestScore = 0,
+                        bestResponse = null;
+                    for (const entry of KNOWLEDGE_BASE) {
+                        let score = 0;
+                        for (const kw of entry.keywords) {
+                            if (domandaNorm.includes(kw)) {
+                                score += kw.split(' ').length; // parole piu' lunghe = match migliore
+                            }
+                        }
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestResponse = entry.response;
+                        }
+                    }
+
+                    if (bestResponse && bestScore > 0) {
+                        ultimoArgomento = bestResponse;
+                        storico.push(bestResponse);
+                        if (storico.length > 5) storico.shift();
+                        return bestResponse;
+                    }
+
+                    return "Non ho trovato una risposta specifica. Prova con 'cos'e' Python?', 'differenza compilato interpretato' o digita 'aiuto' per vedere tutti gli argomenti disponibili.";
+                }
+
+                const toggleBtn = document.getElementById('chatbotToggle');
+                const closeBtn = document.getElementById('chatbotClose');
+                const windowEl = document.getElementById('chatbotWindow');
+                const messagesEl = document.getElementById('chatbotMessages');
+                const inputEl = document.getElementById('chatbotInput');
+                const sendBtn = document.getElementById('chatbotSend');
+
+                function aggiungiMessaggio(testo, tipo) {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = 'message ' + tipo;
+                    msgDiv.innerHTML = testo.replace(/\n/g, '<br>');
+                    messagesEl.appendChild(msgDiv);
+                    messagesEl.scrollTop = messagesEl.scrollHeight;
+                }
+
+                function mostraTyping() {
+                    const div = document.createElement('div');
+                    div.className = 'message bot';
+                    div.innerHTML =
+                        '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+                    div.id = 'typing-indicator';
+                    messagesEl.appendChild(div);
+                    messagesEl.scrollTop = messagesEl.scrollHeight;
+                }
+
+                function rimuoviTyping() {
+                    const el = document.getElementById('typing-indicator');
+                    if (el) el.remove();
+                }
+
+                function inviaMessaggio() {
+                    const testo = inputEl.value.trim();
+                    if (!testo) return;
+                    aggiungiMessaggio(testo, 'user');
+                    inputEl.value = '';
+                    mostraTyping();
+                    const delay = Math.min(400 + testo.length * 15, 1000);
+                    setTimeout(() => {
+                        rimuoviTyping();
+                        aggiungiMessaggio(trovaRisposta(testo), 'bot');
+                    }, delay);
+                }
+
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', () => {
+                        windowEl.classList.remove('hidden');
+                        toggleBtn.style.display = 'none';
+                        setTimeout(() => inputEl.focus(), 150);
+                    });
+                }
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        windowEl.classList.add('hidden');
+                        toggleBtn.style.display = 'flex';
+                        toggleBtn.focus();
+                    });
+                }
+                if (sendBtn) sendBtn.addEventListener('click', inviaMessaggio);
+                if (inputEl) inputEl.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        inviaMessaggio();
+                    }
+                });
+
+                // Chiudi chatbot con Escape
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && windowEl && !windowEl.classList.contains('hidden') &&
+                        document.activeElement === inputEl) {
+                        windowEl.classList.add('hidden');
+                        toggleBtn.style.display = 'flex';
+                        toggleBtn.focus();
+                    }
+                });
+            })();
+
+            // --------------------------------------------------------
+            // 11. GESTIONE ERRORI IMMAGINI
+            // --------------------------------------------------------
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    const placeholder = document.createElement('div');
+                    placeholder.style.cssText =
+                        'width:' + (this.width || 60) + 'px;height:' + (this.height || 60) +
+                        'px;background:var(--dark-surface);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;';
+                    placeholder.textContent = 'IMG';
+                    if (this.parentNode) {
+                        this.parentNode.insertBefore(placeholder, this);
+                    }
+                });
+            });
+
+            console.log('AK Coding - Tesina Linguaggi di Programmazione');
+            console.log('Preloader: ' + (DURATION / 1000) + ' secondi');
+            console.log('Autore: Amr Ahmed Kotb | Classe 3I | A.S. 2025/2026');
+        })();
+    </script>
+</body>
+
+</html>

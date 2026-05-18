@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="CV di Amr Kotb - Sviluppatore Web Junior. Competenze in React, PHP, MySQL e sviluppo full-stack.">
+    <meta name="author" content="Amr Kotb">
+    <title>Amr Kotb · Sviluppatore Web Junior | CV creativo professionale</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/logo.png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: 'Inter', sans-serif;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+            color: #14212b;
+        }
+
+        .cv-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* main card — professional borderless but with subtle elegance */
+        .cv-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cv-card:hover {
+            box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ========== BOTTONE HOME (esterno al card, elegante) ========== */
+        .home-button-wrapper {
+            margin-bottom: 1.2rem;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            backdrop-filter: blur(10px);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1b6b6b;
+            border: 1px solid #d4e3e1;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            letter-spacing: 0.2px;
+        }
+
+        .btn-home i {
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-home:hover {
+            background: #1b6b6b;
+            color: white;
+            border-color: #1b6b6b;
+            transform: translateX(-3px);
+            box-shadow: 0 6px 14px rgba(27, 107, 107, 0.2);
+        }
+
+        .btn-home:hover i {
+            transform: translateX(-2px);
+        }
+
+        /* ========== HEADER (modern & clean with photo area) ========== */
+        .header {
+            background: linear-gradient(135deg, #0f2a2c 0%, #1b4347 100%);
+            padding: 2rem 2.8rem 1.8rem;
+            color: white;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-info {
+            flex: 2;
+        }
+
+        .name-title h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .name-title .highlight {
+            color: #b9e6e0;
+            font-weight: 800;
+            border-bottom: 2px solid rgba(185, 230, 224, 0.6);
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-top: 0.4rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.2px;
+        }
+
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.4rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            width: fit-content;
+        }
+
+        .contact-grid span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-grid i {
+            color: #b9e6e0;
+            font-size: 0.8rem;
+            width: 1rem;
+        }
+
+        /* photo area - spazio per immagine professionale */
+        .photo-area {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            padding: 0.2rem;
+            backdrop-filter: blur(2px);
+        }
+
+        .photo-frame {
+            width: 120px;
+            height: 120px;
+            background: #f0f6f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 3px solid #b9e6e0;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            overflow: hidden;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.02);
+            border-color: #ffd966;
+        }
+
+        /* ========== 2 COLUMNS LAYOUT ========== */
+        .cv-body {
+            display: grid;
+            grid-template-columns: 1fr 1.9fr;
+        }
+
+        /* LEFT COLUMN — softer background + modern cards */
+        .col-left {
+            background: #fbfdfe;
+            padding: 2rem 2rem 2rem 1.8rem;
+            border-right: 1px solid #e2e9f0;
+        }
+
+        .col-right {
+            background: white;
+            padding: 2rem 2rem 2rem 1.8rem;
+        }
+
+        /* section styling */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            color: #1b6b6b;
+            margin-bottom: 1.2rem;
+            border-left: 3px solid #2b8f8a;
+            padding-left: 0.75rem;
+        }
+
+        /* Skills with clean progress (qualitative) */
+        .skill-item {
+            margin-bottom: 1.2rem;
+        }
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .skill-name {
+            color: #1e3b3f;
+        }
+        .skill-level {
+            background: #e4edef;
+            padding: 0.15rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #226f6b;
+        }
+        .progress-bg {
+            background: #e2e9ed;
+            border-radius: 20px;
+            height: 5px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #2b8f8a, #3fa89f);
+            height: 100%;
+            border-radius: 20px;
+            width: 0%;
+        }
+
+        /* Mini highlight stats */
+        .insight-stats {
+            background: #f0f6f5;
+            border-radius: 24px;
+            padding: 1rem 1rem;
+            margin: 1.5rem 0 1.2rem;
+        }
+        .stats-flex {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: white;
+            padding: 0.6rem 0.8rem;
+            border-radius: 28px;
+            min-width: 100px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .stat-number {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #0f4e4a;
+        }
+        .stat-detail {
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: #528a86;
+            letter-spacing: 0.2px;
+        }
+        .stat-tag {
+            background: #e2eceb;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            display: inline-block;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        /* Languages */
+        .lang-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #e7edf2;
+        }
+        .lang-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .lang-badge {
+            background: #eef3f2;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1b6b6b;
+        }
+
+        /* Soft skills chips */
+        .soft-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.25rem;
+        }
+        .soft-chip {
+            background: #ecf3f2;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1d4e4a;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+        .soft-chip:hover {
+            background: #2b8f8a;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Profile text */
+        .profile-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #1f3b3f;
+        }
+
+        /* Experience / projects */
+        .exp-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: baseline;
+            margin-bottom: 0.25rem;
+        }
+        .exp-role {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #0f3b3b;
+        }
+        .exp-date {
+            font-size: 0.7rem;
+            background: #ecf3f2;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-weight: 500;
+            color: #1f6e6a;
+        }
+        .exp-company {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #35807b;
+            margin-bottom: 0.5rem;
+        }
+        .exp-desc {
+            font-size: 0.8rem;
+            color: #2a4b4f;
+            padding-left: 0.6rem;
+            border-left: 2px solid #cbe0de;
+        }
+        .exp-desc ul {
+            margin-top: 0.3rem;
+            padding-left: 1.2rem;
+            list-style-type: square;
+        }
+        .exp-desc li {
+            margin-bottom: 0.45rem;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .tech-tag {
+            background: #eef3f2;
+            font-size: 0.65rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: 500;
+            color: #1f6b67;
+            transition: all 0.2s;
+        }
+        .tech-tag:hover {
+            background: #2b8f8a;
+            color: white;
+        }
+
+        /* Social links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: flex-start;
+        }
+        .social-link {
+            background: rgba(255, 255, 255, 0.1);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .social-link:hover {
+            background: #b9e6e0;
+            color: #0f2a2c;
+            transform: translateY(-2px);
+        }
+
+        /* Education */
+        .edu-item {
+            margin-bottom: 1.5rem;
+        }
+        .edu-title {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #0f3b3b;
+        }
+        .edu-sub {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #35807b;
+            margin: 4px 0 2px;
+        }
+        .edu-date {
+            font-size: 0.7rem;
+            color: #6a8f8c;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Availability badge */
+        .availability-card {
+            background: linear-gradient(135deg, #f2f8f7 0%, #e8f3f1 100%);
+            border-radius: 20px;
+            padding: 0.9rem 1rem;
+            text-align: center;
+            margin-top: 1.2rem;
+            border: 1px solid #d4e3e1;
+            transition: all 0.2s;
+        }
+        .availability-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+        }
+        .availability-card i {
+            color: #2b8f8a;
+            margin-right: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0b282b;
+            color: #aacbc7;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* responsive */
+        @media (max-width: 780px) {
+            body {
+                padding: 1rem;
+            }
+            .cv-body {
+                grid-template-columns: 1fr;
+            }
+            .col-left {
+                border-right: 0;
+                border-bottom: 1px solid #e2e9f0;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.8rem;
+            }
+            .contact-grid {
+                width: 100%;
+                justify-content: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .name-title h1 {
+                font-size: 2rem;
+            }
+            .photo-frame {
+                width: 100px;
+                height: 100px;
+                margin: 0 auto;
+            }
+            .home-button-wrapper {
+                justify-content: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0.1in;
+            }
+            .cv-card {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .cv-card:hover {
+                box-shadow: none;
+            }
+            .soft-chip:hover, .tech-tag:hover {
+                background: #ecf3f2;
+                color: #1d4e4a;
+            }
+            .progress-fill {
+                background: #2b8f8a !important;
+                print-color-adjust: exact;
+            }
+            .header {
+                background: #0f2a2c !important;
+                print-color-adjust: exact;
+            }
+            .photo-frame {
+                border: 1px solid #ccc;
+            }
+            .availability-card:hover {
+                transform: none;
+            }
+            .stat-card:hover {
+                transform: none;
+            }
+            .home-button-wrapper {
+                display: none;
+            }
+        }
+
+        /* Scrollbar personalizzata */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eef2f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b8f8a;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="cv-container">
+
+        <!-- PULSANTE TORNA ALLA HOME (esterno alla card principale) -->
+    <div class="home-button-wrapper">
+        <a href="index.html" class="btn-home">
+            <i class="fas fa-arrow-left"></i>
+            <span>Torna alla Home</span>
+        </a>
+    </div>
+
+    <div class="cv-card">
+        <!-- HEADER con spazio dedicato per l'immagine -->
+        <div class="header">
+            <div class="header-info">
+                <div class="name-title">
+                    <h1>Amr <span class="highlight">Kotb</span></h1>
+                    <div class="tagline">Sviluppatore Web Junior · Studente in Informatica</div>
+                </div>
+                <div class="contact-grid">
+                    <span><i class="fas fa-envelope"></i> akotb594@gmail.com</span>
+                    <span><i class="fas fa-phone-alt"></i> 347 312 3532</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Milano, Italia</span>
+                </div>
+ 
+            </div>
+            <!-- SPAZIO PER IMMAGINE: foto professionale -->
+            <div class="photo-area">
+                <div class="photo-frame">
+                    <img src="images/io.png" alt="Amr Kotb - Foto profilo" onerror="this.src='https://placehold.co/120x120/eef2f5/2b8f8a?text=AK';">
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-body">
+            <!-- COLONNA SINISTRA: skills, lingue, soft -->
+            <div class="col-left">
+                <!-- Technical skills -->
+                <div class="section">
+                    <div class="section-title">COMPETENZE TECNICHE</div>
+                    <div class="skill-item">
+                        <div class="skill-header"><span class="skill-name">HTML5 / CSS3</span><span class="skill-level">Avanzato</span></div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 92%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header"><span class="skill-name">JavaScript (React)</span><span class="skill-level">Framework</span></div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 85%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header"><span class="skill-name">JavaScript (Frontend)</span><span class="skill-level">Solido</span></div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 78%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header"><span class="skill-name">JavaScript (backend/ node.js)</span><span class="skill-level">Solido</span></div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 70%"></div></div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-header"><span class="skill-name">TypeScript</span><span class="skill-level">intermedio</span></div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 65%"></div></div>
+                    </div>
+
+
+                    <div class="skill-item">
+                        <div class="skill-header"><span class="skill-name">PHP </span><span class="skill-level">API REST</span></div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 72%"></div></div>
+                    </div>
+
+                </div>
+
+                <!-- insight stats -->
+                <div class="insight-stats">
+                    <div class="stats-flex">
+
+                        <div class="stat-card"><div class="stat-number">React</div>
+                        <div class="stat-detail">Focus full-stack</div>
+                        <div class="stat-tag">Real-time</div>
+                      </div>
+
+                        <div class="stat-card"><div class="stat-number">HTML CSS JS</div>
+                        <div class="stat-detail">Frontend sviluppo</div>
+                        <div class="stat-tag">Web Design</div>
+                     </div>
+
+                     </div>
+
+                </div>
+
+                <!-- Lingue -->
+                <div class="section">
+                    <div class="section-title">LINGUE</div>
+                    <div class="lang-row"><span class="lang-name">Arabo</span><span class="lang-badge">Madrelingua</span></div>
+                    <div class="lang-row"><span class="lang-name">Italiano</span><span class="lang-badge">Madrelingua</span></div>
+                    <div class="lang-row"><span class="lang-name">Inglese</span><span class="lang-badge">B1 · Intermedio (Erasmus+)</span></div>
+                </div>
+
+                <!-- Soft skills -->
+                <div class="section">
+                    <div class="section-title">SOFT SKILLS</div>
+                    <div class="soft-wrap">
+                        <span class="soft-chip">Comunicazione chiara</span>
+                        <span class="soft-chip">Team working</span>
+                        <span class="soft-chip">Problem solving</span>
+                        <span class="soft-chip">Gestione del tempo</span>
+                        <span class="soft-chip">Apprendimento rapido</span>
+                        <span class="soft-chip">UI/UX sensibilità</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLONNA DESTRA: profilo, esperienze, formazione -->
+            <div class="col-right">
+                <!-- Profilo -->
+                <div class="section">
+                    <div class="section-title">PROFILO PROFESSIONALE</div>
+                    <div class="profile-text">
+                        Studente di Informatica con solida passione per lo sviluppo web e architetture real-time. 
+                        Cerco una posizione junior o stage per applicare competenze in <strong>React, PHP e progettazione API</strong>. 
+                        Autodidatta, metodico e orientato al risultato. L'esperienza Erasmus+ mi ha permesso di sviluppare 
+                        una web app collaborativa in produzione, migliorando capacità di adattamento e lavoro internazionale.
+                    </div>
+                </div>
+
+                <!-- Esperienze e progetti chiave -->
+                <div class="section">
+                    <div class="section-title">ESPERIENZE & PROGETTI</div>
+
+                    <!-- Erasmus+ featured -->
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <span class="exp-role">Sviluppatore Full-stack (Erasmus+)</span>
+                            <span class="exp-date">Mar - Apr 2025</span>
+                        </div>
+                        <div class="exp-company">Empresa 2point · Valencia, Spagna</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li><strong>Agenda collaborativa in tempo reale</strong> per gestione appuntamenti aziendali, attualmente in uso.</li>
+                                <li>Implementazione sincronizzazione live con <strong>React + PHP API REST</strong>, riducendo conflitti di pianificazione.</li>
+                                <li>Backend strutturato con MySQL e autenticazione sicura (sessioni email/password).</li>
+                                <li>Collaborazione con team internazionale, presentazione demo ai manager.</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">html</span>
+                                <span class="tech-tag">css</span>
+                                <span class="tech-tag">js</span>
+                                <span class="tech-tag">Real-time</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progetto personale: Note & Agenda -->
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <span class="exp-role">App Note & Agenda Giornaliera</span>
+                            <span class="exp-date">2024 - 2025</span>
+                        </div>
+                        <div class="exp-company">Progetto personale (full stack)</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>Sviluppo di applicazione React modulare per note e pianificazione quotidiana con stato centralizzato.</li>
+                                <li>Persistenza offline tramite <strong>LocalStorage </strong>, dashboard responsive mobile-first.</li>
+                                <li>Vista calendario interattiva, promemoria e sincronizzazione delle attività.</li>
+                                <li>Codice su GitHub con attenzione alle performance UI e usabilità.</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">LocalStorage</span>
+                                <span class="tech-tag">CSS Grid/Flex</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <!-- Formazione -->
+                <div class="section">
+                    <div class="section-title">FORMAZIONE</div>
+                    <div class="edu-item">
+                        <div class="edu-title">Studente in Informatica</div>
+                        <div class="edu-sub">AFOL Metropolitana – Centro di Formazione Professionale</div>
+                        <div class="edu-date">2025 – Presente</div>
+                        <div class="profile-text" style="font-size:0.78rem;">Programmazione web, basi di dati, reti, sistemi operativi, metodologie agili.</div>
+                    </div>
+                    <div class="edu-item">
+                        <div class="edu-title">Erasmus+ Formazione Specialistica</div>
+                        <div class="edu-sub">Spagna – Sviluppo Real-time & Collaborazione</div>
+                        <div class="edu-date">Marzo - Aprile 2025</div>
+                        <div class="profile-text" style="font-size:0.78rem;">Esperienza intensiva di 1 mese presso 2point: progettazione e sviluppo di applicazione web collaborativa in ambiente professionale.</div>
+                    </div>
+                </div>
+
+                <!-- Disponibilità -->
+                <div class="availability-card">
+                    <i class="fas fa-calendar-check"></i> Disponibilità immediata per stage / posizione junior · Colloqui aperti
+                    <div style="font-size: 0.7rem; margin-top: 6px;">
+                        <i class="fas fa-envelope"></i> akotb594@gmail.com · <i class="fas fa-phone"></i> 347 312 3532
+                    </div>                
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>Amr Kotb — Curriculum aggiornato Aprile 2026</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
