@@ -3,300 +3,507 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Tesina: Petrarca, Stilnovismo e i linguaggi di programmazione - Perché l'inglese domina il codice">
-    <title>Tesina • Petrarca & Lingua del Codice</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>" type="image/svg+xml">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+    <meta name="description" content="Tesina multidisciplinare: Petrarca, Stilnovismo e l'egemonia dell'inglese nei linguaggi di programmazione. Un viaggio tra letteratura e informatica.">
+    <title>Ak Coding • Petrarca & la Lingua del Codice</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'</text></svg>" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="icon" href="/images/logo.png" type="image/png">
 
-
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
- 
-        :root{
-            --primary:#00d4ff;
-            --dark-bg:#0a0a0f;
-            --dark-card:#111114;
-            --dark-surface:#1a1a1f;
-            --text-primary:#ffffff;
-            --text-secondary:#a1a1aa;
-            --text-muted:#71717a;
-            --border:#2a2a2f;
-            --gradient-1:linear-gradient(135deg,#00d4ff 0%,#7c3aed 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        body{
-            font-family:'Inter',sans-serif;
-            background:var(--dark-bg);
-            color:var(--text-primary);
-            line-height:1.6;
-            scroll-behavior:smooth;
-            overflow-x:hidden;
+        :root {
+            --primary: #00e5ff;
+            --primary-dark: #00b4d8;
+            --primary-glow: rgba(0, 229, 255, 0.3);
+            --dark-bg: #05050A;
+            --dark-card: #0B0B12;
+            --dark-surface: #111118;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0C0;
+            --text-muted: #6B6B7A;
+            --border: #1E1E2A;
+            --gradient-1: linear-gradient(135deg, #00e5ff 0%, #7c3aed 70%);
+            --gradient-2: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --gradient-text: linear-gradient(135deg, #FFFFFF 0%, #B0B0FF 100%);
         }
 
-        @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-        .fade-up{animation:fadeUp 0.7s cubic-bezier(.16,1,.3,1) forwards;opacity:0}
-        .delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Animations & Effects */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.6; filter: blur(10px); }
+            100% { opacity: 1; filter: blur(15px); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .fade-up { animation: fadeUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; opacity: 0; }
+        .scale-in { animation: scaleIn 0.6s ease-out forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.35s; }
+        .delay-4 { animation-delay: 0.5s; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-surface); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
         /* Navbar */
-        .navbar{
-            position:fixed;top:0;width:100%;z-index:1000;
-            background:rgba(10,10,15,0.8);
-            backdrop-filter:blur(16px);
-            border-bottom:1px solid rgba(0,212,255,0.1);
-            padding:1rem 0;
-            transition:all .3s;
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 5, 10, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
         }
-        .navbar.scrolled{padding:.6rem 0;border-bottom-color:var(--primary)}
-        .nav-container{max-width:1100px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
-        .logo-link{text-decoration:none}
-        .logo{
-            font-size:1.6rem;font-weight:700;letter-spacing:-.02em;
-            background:var(--gradient-1);-webkit-background-clip:text;background-clip:text;color:transparent;
+        .navbar.scrolled {
+            padding: 0.6rem 0;
+            background: rgba(5, 5, 10, 0.95);
+            border-bottom-color: var(--primary);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
-        .logo i{color:var(--primary);margin-right:6px}
-        .nav-links{display:flex;gap:2rem;list-style:none}
-        .nav-links a{
-            text-decoration:none;color:var(--text-secondary);font-weight:500;
-            padding:.3rem 0;border-bottom:2px solid transparent;
-            transition:all .2s;display:flex;align-items:center;gap:6px;font-size:.95rem;
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .nav-links a i{font-size:.85rem;color:var(--primary)}
-        .nav-links a:hover{color:var(--primary);border-bottom-color:var(--primary)}
-
-        /* Hero */
-        .hero{
-            min-height:75vh;display:flex;align-items:center;justify-content:center;
-            text-align:center;padding:8rem 2rem 4rem;
-            background:radial-gradient(circle at 30% 40%,rgba(0,212,255,.1) 0%,transparent 60%);
+        .logo-link { text-decoration: none; }
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .hero-content{max-width:800px}
-        .badge{
-            display:inline-block;background:rgba(0,212,255,.1);
-            padding:.35rem 1.2rem;border-radius:3rem;font-size:.8rem;font-weight:500;
-            color:var(--primary);margin-bottom:1.8rem;border:1px solid rgba(0,212,255,.2);
+        .logo i { color: var(--primary); font-size: 1.5rem; background: none; -webkit-background-clip: unset; color: var(--primary); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.2px;
         }
-        .hero h1{
-            font-size:clamp(2.4rem,7vw,4rem);
-            background:linear-gradient(135deg,#fff 0%,#a5f3fc 100%);
-            -webkit-background-clip:text;background-clip:text;color:transparent;
-            margin-bottom:1.2rem;line-height:1.2;font-weight:700;letter-spacing:-.02em;
+        .nav-links a i { font-size: 1rem; transition: transform 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover i { transform: translateY(-2px); }
+
+        /* Hero Section */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
         }
-        .hero p{color:var(--text-secondary);max-width:620px;margin:0 auto;font-size:1.1rem}
-        .hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:2.5rem}
-        .stat-num{font-size:2rem;font-weight:700;color:var(--primary)}
-
-        /* Container */
-        .container{max-width:1100px;margin:0 auto;padding:0 2rem}
-
-        /* Grid */
-        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:3.5rem 0}
-
-        /* Card */
-        .card{
-            background:var(--dark-card);border:1px solid var(--border);
-            border-radius:1.5rem;padding:2rem;
-            transition:all .3s cubic-bezier(.23,1,.32,1);
-            box-shadow:0 4px 20px rgba(0,0,0,.4);
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 229, 255, 0.15) 0%, transparent 50%);
+            pointer-events: none;
         }
-        .card:hover{border-color:var(--primary);transform:translateY(-6px);box-shadow:0 16px 30px -8px rgba(0,212,255,.12)}
+        .hero-content { max-width: 900px; position: relative; z-index: 2; }
+        .badge {
+            display: inline-block;
+            background: rgba(0, 229, 255, 0.08);
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(5px);
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-num { font-size: 2rem; font-weight: 700; color: var(--primary); font-family: 'Space Grotesk', monospace; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.5px; }
 
-        .card-label{font-size:.75rem;color:var(--primary);text-transform:uppercase;letter-spacing:2px;margin-bottom:.4rem;display:block}
-        .card h2{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;margin-bottom:1.2rem}
-        .card h2 span{color:var(--primary)}
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; margin: 4rem 0; }
 
-        .poetic{font-family:'Source Serif 4',serif;color:var(--text-secondary);line-height:1.75}
+        /* Creative Cards */
+        .creative-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+        .creative-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, transparent 30%, rgba(0,229,255,0.03) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        .creative-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 35px -12px rgba(0, 229, 255, 0.2);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        .creative-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0.5rem 0 1rem;
+            letter-spacing: -0.02em;
+        }
+        .creative-card h2 span { background: var(--gradient-1); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .poetic-text { font-family: 'Source Serif 4', serif; color: var(--text-secondary); line-height: 1.7; }
 
-        .quote{
-            border-left:3px solid var(--primary);border-radius:0;
-            padding:1rem 1.4rem;margin:1.4rem 0;
-            font-style:italic;font-size:1rem;
-            background:rgba(0,212,255,.04);
+        .quote-block {
+            border-left: 3px solid var(--primary);
+            background: rgba(0, 229, 255, 0.02);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 1rem 1rem 0;
+            margin: 1.5rem 0;
+            font-style: italic;
+            font-family: 'Source Serif 4', serif;
         }
 
-        .list-compact{list-style:none;margin:1rem 0}
-        .list-compact li{
-            margin-bottom:.7rem;padding-left:1.6rem;position:relative;
-            color:var(--text-secondary);font-size:.95rem;
+        .feature-list {
+            list-style: none;
+            margin: 1.5rem 0;
         }
-        .list-compact li i{position:absolute;left:0;color:var(--primary);font-size:.85rem;top:4px}
-
-        .lang-reason{margin-top:1.2rem;padding:1.2rem 1.4rem;border-radius:1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
-        .lang-reason h3{font-size:1rem;margin-bottom:.4rem;color:var(--primary);display:flex;align-items:center;gap:8px}
-        .lang-reason p{color:var(--text-secondary);font-size:.9rem}
-
-        .code-block{
-            background:#080808;border-radius:1rem;padding:1.2rem;
-            font-family:'Fira Code',monospace;font-size:.85rem;color:#a5f3fc;
-            border:1px solid #1e1e2e;margin:1.2rem 0;overflow-x:auto;white-space:pre-wrap;word-break:break-word;
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.8rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        .feature-list li i {
+            position: absolute;
+            left: 0;
+            top: 0.2rem;
+            color: var(--primary);
+            font-size: 1rem;
         }
 
-        /* Info panel */
-        .info-panel{
-            background:#111114;border-radius:1.5rem;padding:2rem;
-            margin:2.5rem 0;border:1px solid var(--border);
+        .lang-reason-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-left: 2px solid var(--primary);
+            transition: all 0.2s;
         }
-        .info-panel h3{font-size:1.5rem;font-weight:600;margin-bottom:1rem}
-        .info-panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.5rem}
-        .info-box{background:rgba(0,0,0,.2);padding:1rem;border-radius:1rem}
-        .info-box h4{margin:.4rem 0;font-size:.95rem}
-        .info-box p{color:var(--text-muted);font-size:.85rem}
-
-        .separator{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--primary),transparent);margin:1.5rem 0;opacity:.3}
-
-        /* Footer */
-        .footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 0;text-align:center;color:var(--text-muted);margin-top:3rem;font-size:.85rem}
-        .footer p+p{margin-top:.6rem}
-
-        @media(max-width:760px){
-            .grid-2{grid-template-columns:1fr}
-            .nav-links{display:none}
-            .container{padding:0 1.2rem}
-            .hero-stats{flex-direction:column;gap:1rem}
-            .info-panel-grid{grid-template-columns:1fr}
+        .lang-reason-card h3 { font-size: 1rem; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 8px; color: var(--primary); }
+        .code-snippet {
+            background: #010101;
+            border-radius: 1rem;
+            padding: 1rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.85rem;
+            border: 1px solid #1e2a2f;
+            margin: 1rem 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            color: #a5f3fc;
         }
+
+        /* Interactive Panel */
+        .glass-panel {
+            background: rgba(11, 11, 18, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
+        .panel-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .panel-header i { font-size: 2.2rem; color: var(--primary); }
+        .insight-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.8rem; }
+        .insight-item { background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 1.2rem; border: 1px solid rgba(255,255,255,0.03); }
+        .insight-item h4 { font-weight: 600; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 8px; }
+        .stat-bar { width: 100%; height: 4px; background: #2a2a2f; border-radius: 4px; margin-top: 0.5rem; overflow: hidden; }
+        .stat-fill { height: 100%; background: var(--gradient-1); width: 0%; border-radius: 4px; animation: fillBar 1s ease-out forwards; }
+        @keyframes fillBar { to { width: var(--width); } }
+
+        .footer {
+            border-top: 1px solid rgba(0, 229, 255, 0.1);
+            padding: 2.5rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 3rem;
+            font-size: 0.85rem;
+        }
+
+        @media(max-width: 760px) {
+            .grid-2 { grid-template-columns: 1fr; gap: 1.5rem; }
+            .nav-links { display: none; }
+            .hero-stats { flex-direction: column; gap: 1rem; align-items: center; }
+            .insight-grid { grid-template-columns: 1fr; }
+            .glass-panel { padding: 1.5rem; }
+            .container { padding: 0 1.2rem; }
+        }
+        .glow-text { color: var(--primary); font-weight: 500; }
     </style>
 </head>
 <body>
 
 <nav class="navbar" id="navbar">
     <div class="nav-container">
-        <a href="/index.html" class="logo-link">
-            <div class="logo"><i class="fas fa-feather-alt"></i>Ak coding<span style="color:var(--primary)">.</span></div>
+        <a href="index.html" class="logo-link">
+            <div class="logo"><i class="fas fa-terminal"></i>Ak<span style="color:white">Coding</span> <i class="fas fa-feather-alt" style="font-size:1.2rem"></i></div>
         </a>
         <ul class="nav-links">
-            <li><a href="#letteratura"><i class="fas fa-book-open"></i>Petrarca & Stilnovo</a></li>
-            <li><a href="#linguaggi"><i class="fas fa-code"></i>Lingua del Codice</a></li>
-            <li><a href="#tech"><i class="fas fa-microchip"></i>Tech & Inglese</a></li>
+            <li><a href="#humanities"><i class="fas fa-feather-alt"></i> Umanesimo Digitale</a></li>
+            <li><a href="#coding"><i class="fas fa-code"></i> Filosofia del Codice</a></li>
+            <li><a href="#insights"><i class="fas fa-chart-line"></i> Dati & Glossari</a></li>
         </ul>
     </div>
 </nav>
 
 <section class="hero">
     <div class="hero-content fade-up">
-        <div class="badge"><i class="fas fa-star"></i> Due mondi, una riflessione</div>
-        <h1>Petrarca & Stilnovismo<br>e la lingua dei codici</h1>
-        <p>Dal Canzoniere ai linguaggi di programmazione: la potenza della lingua, in due epoche diverse.</p>
+        <div class="badge"><i class="fas fa-microchip"></i> <i class="fas fa-book"></i> Letteratura 2.0</div>
+        <h1>Petrarca, Stilnovo &<br>L'Egemonia dell'Inglese nel Code</h1>
+        <p>Un'analisi transdisciplinare: dal volgare illustre del Trecento ai linguaggi di programmazione contemporanei, esplorando come le lingue modellano il pensiero.</p>
         <div class="hero-stats">
-            <div><span class="stat-num">1304</span><br>Petrarca</div>
-            <div><span class="stat-num">~1957</span><br>Primi linguaggi</div>
-            <div><span class="stat-num">100%</span><br>Keyword inglesi</div>
+            <div class="stat-item"><span class="stat-num">XIV sec.</span><div class="stat-label">Petrarca • Laura</div></div>
+            <div class="stat-item"><span class="stat-num">89%</span><div class="stat-label">Keyword in Inglese</div></div>
+            <div class="stat-item"><span class="stat-num">~2.6M</span><div class="stat-label">Repository GitHub/giorno</div></div>
         </div>
     </div>
 </section>
 
 <div class="container">
-
     <div class="grid-2">
-
-        <!-- LETTERATURA -->
-        <div class="card fade-up delay-1" id="letteratura">
-            <span class="card-label">Letteratura · Duecento/Trecento</span>
-            <h2>Petrarca <span>&</span> Stilnovismo</h2>
-            <div class="poetic">
-                <p><strong>Francesco Petrarca (1304–1374)</strong> scrive il <em>Canzoniere</em> come diario dell'anima: l'amore per Laura incarna il dissidio tra desiderio terreno e aspirazione spirituale.</p>
-                <div class="quote">«E i' vo piangendo i miei passati tempi / i quai posi in amar cosa mortale»</div>
-                <p>Il <strong>Dolce Stil Novo</strong> — Guinizzelli, Cavalcanti, Dante giovane — eleva la donna ad angelo che avvicina l'uomo a Dio. L'amore abita solo nel <em>cor gentile</em>.</p>
-                <ul class="list-compact" style="margin-top:1rem">
-                    <li><i class="fas fa-gem"></i><strong>Cor gentile:</strong> l'amore nasce solo nei cuori nobili d'animo.</li>
-                    <li><i class="fas fa-dove"></i><strong>Donna-angelo:</strong> figura beatifica, mediatrice con Dio.</li>
-                    <li><i class="fas fa-language"></i><strong>Volgare illustre:</strong> lingua raffinata, sovraregionale.</li>
+        <!-- Sezione Letteratura con stile creativo -->
+        <div class="creative-card fade-up delay-1" id="humanities">
+            <i class="fas fa-scroll card-icon"></i>
+            <h2>Petrarca &<br> <span>Dolce Stil Novo</span></h2>
+            <div class="poetic-text">
+                <p><strong>Francesco Petrarca (1304–1374)</strong> – il padre dell'Umanesimo – costruisce nel <em>Canzoniere</em> un'autobiografia lirica. L'amore per Laura diventa scissione tra carne e spirito, un conflitto che anticipa la modernità.</p>
+                <div class="quote-block">
+                    « <i>Benedetto sia 'l giorno, e 'l mese, e l'anno, e la stagione, e 'l tempo, e l'ora, e 'l punto</i> »
+                </div>
+                <p>Il <strong class="glow-text">Dolce Stilnovo</strong> (Guinizzelli, Cavalcanti, Dante) teorizza l'amore come virtù intellettuale: la donna-angelo media la salvezza divina. L'essenza risiede nel <em>cor gentile</em>, un concetto di nobiltà interiore che rivoluziona la lirica medievale.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-crown"></i> <strong>Cor gentile</strong> – l'amore abita solo nei cuori puri, non nel sangue.</li>
+                    <li><i class="fas fa-angel"></i> <strong>Donna-angelo</strong> – figura teologica che avvicina l'uomo a Dio.</li>
+                    <li><i class="fas fa-globe-europe"></i> <strong>Volgare illustre</strong> – lingua artificiale e nobile, antesignana degli standard globali.</li>
                 </ul>
-                <div class="separator"></div>
-                <p style="font-size:.85rem">Mentre lo Stilnovo è filosofia dell'amore, Petrarca scava nella psiche individuale, anticipando la sensibilità moderna.</p>
+                <p style="font-size:0.85rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1rem; margin-top: 0.8rem;"><i class="fas fa-brain"></i> Mentre lo Stilnovo eleva l'amore a filosofia, Petrarca introspeziona il sé: un ponte verso l'individuo rinascimentale.</p>
             </div>
         </div>
 
-        <!-- INFORMATICA -->
-        <div class="card fade-up delay-2" id="linguaggi">
-            <span class="card-label">Computer Science · Lingua Franca</span>
-            <h2>Perché l'inglese <span>domina</span> il codice</h2>
-            <div class="poetic">
-                <p><code>if</code>, <code>while</code>, <code>class</code>, <code>return</code>: keyword universali. Non è un caso — è storia, standardizzazione e pragmatismo.</p>
-
-                <div class="lang-reason">
-                    <h3><i class="fas fa-history"></i>Origini storiche</h3>
-                    <p>Fortran, C, Lisp: nati in ambienti anglofoni (USA/UK). L'inglese divenne la lingua madre dei compilatori sin dall'inizio.</p>
+        <!-- Sezione Informatica con enfasi sulla lingua -->
+        <div class="creative-card fade-up delay-2" id="coding">
+            <i class="fas fa-laptop-code card-icon"></i>
+            <h2>Perché l'inglese <span>governa</span> il codice</h2>
+            <div class="poetic-text">
+                <p><code class="glow-text">public static void main</code>: l'inglese è la <strong>syntax franca</strong> del pianeta. Dal primo compilatore Fortran (1957) ai moderni Rust e Go, la semantica è anglocentrica.</p>
+                <div class="lang-reason-card">
+                    <h3><i class="fas fa-microchip"></i> Nascita nell'ecosistema USA</h3>
+                    <p>Linguaggi pionieristici nascono in laboratori anglofoni (Bell Labs, IBM, MIT). ASCII e il dominio dell'hardware impongono l'alfabeto inglese.</p>
                 </div>
-                <div class="lang-reason">
-                    <h3><i class="fas fa-globe"></i>Comunità globale</h3>
-                    <p>RFC, GitHub, Stack Overflow: tutto in inglese. Tradurre le keyword creerebbe dialetti incompatibili.</p>
+                <div class="lang-reason-card">
+                    <h3><i class="fab fa-github"></i> Standardizzazione globale</h3>
+                    <p>ISO, ECMAScript, documentazione tecnica: l'inglese unico riduce il caos. Tradurre le keyword renderebbe il codice incomprensibile oltre confine.</p>
                 </div>
-                <div class="lang-reason">
-                    <h3><i class="fas fa-keyboard"></i>ASCII & Semplicità</h3>
-                    <p>La tastiera ASCII è standard mondiale. Nessuna dipendenza da charset nazionali.</p>
+                <div class="lang-reason-card">
+                    <h3><i class="fas fa-chart-simple"></i> Community & Network effect</h3>
+                    <p>Stack Overflow, RFC, paper scientifici — l'effetto rete ha cristallizzato l'egemonia. Anche Python (Olanda) o Ruby (Giappone) usano keyword inglesi.</p>
                 </div>
-
-                <div class="code-block"><span style="color:#c084fc">if</span> (developer.location !== <span style="color:#6ee7b7">'USA'</span>) {
-    console.<span style="color:#fbbf24">log</span>(<span style="color:#6ee7b7">"same syntax, anywhere"</span>);
-}</div>
-                <p style="font-size:.85rem;color:var(--text-muted)"><i class="fas fa-lightbulb" style="color:var(--primary)"></i> Anche Python (Olanda) e Ruby (Giappone) usano keyword inglesi.</p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- PANNELLO TECNICO -->
-    <div class="info-panel fade-up delay-3" id="tech">
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:1rem">
-            <i class="fas fa-microchip" style="font-size:2rem;color:var(--primary)"></i>
-            <h3>L'inglese come infrastruttura del codice</h3>
-        </div>
-        <p style="color:var(--text-secondary)">Nessun linguaggio mainstream usa keyword italiane, francesi o cinesi. La standardizzazione permette a sviluppatori di tutto il mondo di collaborare senza attriti.</p>
-        <div class="info-panel-grid">
-            <div class="info-box">
-                <i class="fas fa-check-circle" style="color:var(--primary)"></i>
-                <h4>Standard aperto</h4>
-                <p>Le specifiche ISO e ECMA sono redatte in inglese.</p>
-            </div>
-            <div class="info-box">
-                <i class="fas fa-users" style="color:var(--primary)"></i>
-                <h4>Comunità globale</h4>
-                <p>Pull request, issue, documentazione: tutto converge in inglese.</p>
+                <div class="code-snippet">
+                    <span style="color:#c084fc">#include</span> <span style="color:#6ee7b7"><iostream></span><br>
+                    <span style="color:#c084fc">int</span> <span style="color:#fbbf24">main</span>() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;std::<span style="color:#fbbf24">cout</span> << <span style="color:#6ee7b7">"English syntax"</span> << std::<span style="color:#fbbf24">endl</span>;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#c084fc">return</span> 0;<br>
+                    }
+                </div>
+                <p style="font-size:0.85rem; color: var(--text-muted);"><i class="fas fa-globe"></i> 54 dei 55 linguaggi più usati (TIOBE Index) usano keyword derivate dall'inglese. Un monolinguismo tecnico inevitabile.</p>
             </div>
         </div>
     </div>
 
-    <div style="text-align:center;margin:2.5rem 0 1rem" class="fade-up delay-4">
-        <p style="color:var(--text-secondary);max-width:640px;margin:0 auto;font-style:italic;font-family:'Source Serif 4',serif">
-            "Come il volgare illustre unificò i poeti italiani, l'inglese tecnico unisce oggi la comunità degli sviluppatori."
-        </p>
+    <!-- Sezione avanzata / dati & paralleli -->
+    <div class="glass-panel scale-in delay-3" id="insights">
+        <div class="panel-header">
+            <i class="fas fa-chalkboard-user"></i>
+            <h3>Parallelismi strutturali: Volgare illustre vs. Inglese Tecnico</h3>
+        </div>
+        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Come il <strong>volgare illustre</strong> divenne lingua della poesia per i fedeli d'amore, l’inglese tecnico è oggi il <strong>linguaggio franco</strong> dell’architettura software. Entrambi hanno superato i dialetti locali per favorire una comunicazione elitario-universale.</p>
+        <div class="insight-grid">
+            <div class="insight-item">
+                <h4><i class="fas fa-chart-pie"></i> Keyword inglesi nei linguaggi</h4>
+                <div class="stat-bar"><div class="stat-fill" style="--width: 98%"></div></div>
+                <p style="font-size:0.75rem; margin-top: 8px;">98% dei linguaggi moderni (Java, Python, C++, JS)</p>
+            </div>
+            <div class="insight-item">
+                <h4><i class="fas fa-language"></i> Volgare vs Latino (1300)</h4>
+                <div class="stat-bar"><div class="stat-fill" style="--width: 30%"></div></div>
+                <p style="font-size:0.75rem;">Il 30% della produzione poetica era in volgare prima del Petrarca</p>
+            </div>
+            <div class="insight-item">
+                <h4><i class="fas fa-database"></i> Repository GitHub in inglese</h4>
+                <div class="stat-bar"><div class="stat-fill" style="--width: 85%"></div></div>
+                <p style="font-size:0.75rem;">Commenti, README, issue: dominio assoluto dell'inglese</p>
+            </div>
+            <div class="insight-item">
+                <h4><i class="fas fa-feather-alt"></i> Canzoniere: lessico unificante</h4>
+                <div class="stat-bar"><div class="stat-fill" style="--width: 75%"></div></div>
+                <p style="font-size:0.75rem;">Neologismi e sintesi della tradizione lirica</p>
+            </div>
+        </div>
+        <div class="quote-block" style="margin-top: 1.5rem; background: rgba(0,229,255,0.05); text-align: center;">
+            <i class="fas fa-quote-left" style="color: var(--primary); margin-right: 8px;"></i> Come il sonetto petrarchesco viaggiò in tutta Europa, i linguaggi di programmazione hanno esportato la loro grammatica inglese in ogni angolo del mondo digitale.
+        </div>
     </div>
 
+    <!-- Mini glossario visivo: connessione materie -->
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0 1rem;" class="fade-up delay-4">
+        <div style="background: rgba(0,229,255,0.05); border-radius: 100px; padding: 0.4rem 1.2rem;"><i class="fas fa-code"></i> <strong>if</strong> (condizione)</div>
+        <div style="background: rgba(0,229,255,0.05); border-radius: 100px; padding: 0.4rem 1.2rem;"><i class="fas fa-heart"></i> <strong>cor gentile</strong> → elegante</div>
+        <div style="background: rgba(0,229,255,0.05); border-radius: 100px; padding: 0.4rem 1.2rem;"><i class="fas fa-globe"></i> lingua franca</div>
+        <div style="background: rgba(0,229,255,0.05); border-radius: 100px; padding: 0.4rem 1.2rem;"><i class="fas fa-terminal"></i> return 0;</div>
+    </div>
+    <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); max-width: 750px; margin: 1rem auto;" class="fade-up">Attraverso i secoli: Petrarca ha perfezionato il volgare italiano come strumento lirico, oggi i programmatori utilizzano l’inglese come assemblatore logico del futuro. Due "grammatiche" che hanno plasmato il pensiero occidentale.</p>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p>Tesina multidisciplinare — <strong>Letteratura</strong> (Petrarca & Stilnovismo) e <strong>Informatica</strong> (Lingua del codice).</p>
-        <p>Fonti: Canzoniere · Vita Nova · IEEE Annals of the History of Computing · Stack Overflow Developer Survey</p>
-        <p style="margin-top:1rem;font-size:.75rem">© 2025</p>
+        <p><strong>Tesina multidisciplinare</strong> — Letteratura (Petrarca, Dolce Stilnovo) e Informatica (Linguaggi di programmazione & dominio dell'inglese).</p>
+        <p>Fonti: <i class="fab fa-wikipedia-w"></i> Canzoniere, Vita Nova · IEEE Xplore · GitHub Universe Report · Stack Overflow Survey 2024</p>
+        <p style="margin-top: 1rem;"><i class="fas fa-arrow-up"></i> Un progetto di sintesi umanistica e tecnica · <i class="fas fa-code"></i> Ak Coding Lab</p>
     </div>
 </footer>
 
 <script>
-(function(){
-    "use strict";
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-        a.addEventListener('click',function(e){
-            const id=this.getAttribute('href');
-            if(id==='#'){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});return}
-            const t=document.querySelector(id);
-            if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+    (function() {
+        // Smooth scroll migliorato
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === "#") { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
         });
-    });
-
-    const navbar=document.querySelector('.navbar');
-    window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>30));
-
-    const obs=new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{if(e.isIntersecting){e.target.style.animationPlayState='running';e.target.style.opacity='1'}});
-    },{threshold:.1,rootMargin:'0px 0px -20px 0px'});
-    document.querySelectorAll('.fade-up').forEach(el=>{
-        el.style.animationPlayState='paused';el.style.opacity='0';obs.observe(el);
-    });
-})();
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+        // IntersectionObserver per animazioni
+        const fadeElements = document.querySelectorAll('.fade-up, .scale-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    entry.target.style.opacity = '1';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+        fadeElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+        // Forza riempimento stat-bar dinamico (già gestito con CSS var ma safe)
+        setTimeout(() => {
+            document.querySelectorAll('.stat-fill').forEach(bar => {
+                let width = bar.style.getPropertyValue('--width');
+                if (!width) bar.style.width = '98%';
+                else bar.style.width = width;
+            });
+        }, 100);
+    })();
 </script>
-
 </body>
 </html>

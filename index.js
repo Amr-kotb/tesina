@@ -1,26 +1,59 @@
-// ============================================
-// MODAL SYSTEM - CONTENUTI DETTAGLIATI
-// ============================================
-
 (function() {
-    // Contenuti dettagliati per i linguaggi
+    // --------------------------------------------------------
+    // 0. PRELOADER (10 secondi)
+    // --------------------------------------------------------
+    const preloader = document.getElementById('preloader');
+    const progressBar = document.getElementById('preloaderProgressBar');
+    const counterEl = document.getElementById('preloaderCounter');
+    const DURATION = 10000;
+    const startTime = Date.now();
+
+    function updatePreloader() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / DURATION * 100, 100);
+        if (progressBar) progressBar.style.width = progress + '%';
+        if (counterEl) counterEl.textContent = Math.round(progress) + '%';
+
+        if (elapsed < DURATION) {
+            requestAnimationFrame(updatePreloader);
+        } else {
+            if (progressBar) progressBar.style.width = '100%';
+            if (counterEl) counterEl.textContent = '100%';
+            setTimeout(hidePreloader, 300);
+        }
+    }
+
+    function hidePreloader() {
+        if (preloader) {
+            preloader.classList.add('hidden');
+            document.body.classList.remove('preloader-active');
+            setTimeout(() => {
+                if (preloader && preloader.parentNode) {
+                    preloader.remove();
+                }
+            }, 700);
+        }
+    }
+
+    requestAnimationFrame(updatePreloader);
+
+    // --------------------------------------------------------
+    // 1. DATI PER LE MODALI
+    // --------------------------------------------------------
     const languageDetails = {
         c: {
-            title: "Linguaggio C - Approfondimento Accademico",
+            title: "Linguaggio C - Approfondimento",
             content: `
-                <h4>📅 Contesto Storico</h4>
-                <p>Il linguaggio C fu sviluppato da Dennis Ritchie presso i Bell Labs tra il 1969 e il 1973. Nasce dall'esigenza di riscrivere il sistema operativo UNIX, inizialmente scritto in assembly.</p>
-                
-                <h4>⚙️ Caratteristiche Tecniche</h4>
-                <ul>
-                    <li><strong>Compilato</strong> - Il codice viene tradotto direttamente in linguaggio macchina</li>
-                    <li><strong>Gestione manuale della memoria</strong> - Utilizzo di malloc() e free()</li>
-                    <li><strong>Puntatori</strong> - Accesso diretto agli indirizzi di memoria</li>
-                </ul>
-                
-                <h4>📝 Esempio di Codice</h4>
-                <pre class="code-example">
-#include &lt;stdio.h&gt;
+            <h4>Contesto Storico</h4>
+            <p>Il linguaggio C fu sviluppato da Dennis Ritchie presso i Bell Labs tra il 1969 e il 1973. Nasce dall'esigenza di riscrivere il sistema operativo UNIX, inizialmente scritto in assembly.</p>
+            <h4>Caratteristiche Tecniche</h4>
+            <ul>
+                <li><strong>Compilato</strong> - Il codice viene tradotto direttamente in linguaggio macchina</li>
+                <li><strong>Gestione manuale della memoria</strong> - Utilizzo di malloc() e free()</li>
+                <li><strong>Puntatori</strong> - Accesso diretto agli indirizzi di memoria</li>
+            </ul>
+            <h4>Esempio di Codice</h4>
+            <pre class="code-example">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
 int main() {
@@ -33,41 +66,35 @@ int main() {
             `
         },
         python: {
-            title: "Linguaggio Python - Approfondimento Accademico",
+            title: "Linguaggio Python - Approfondimento",
             content: `
-                <h4>📅 Contesto Storico</h4>
-                <p>Python fu creato da Guido van Rossum e rilasciato nel 1991. Il nome deriva dal gruppo comico "Monty Python".</p>
-                
-                <h4>⚙️ Caratteristiche Tecniche</h4>
-                <ul>
-                    <li><strong>Interpretato</strong> - Esecuzione tramite interprete</li>
-                    <li><strong>Tipizzazione dinamica</strong> - Le variabili non hanno tipo fisso</li>
-                    <li><strong>Multi-paradigma</strong> - Supporta OOP, funzionale e procedurale</li>
-                </ul>
-                
-                <h4>📝 Esempio di Codice</h4>
-                <pre class="code-example">
-numeri = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            <h4>Contesto Storico</h4>
+            <p>Python fu creato da Guido van Rossum e rilasciato nel 1991. Il nome deriva dal gruppo comico "Monty Python".</p>
+            <h4>Caratteristiche Tecniche</h4>
+            <ul>
+                <li><strong>Interpretato</strong> - Esecuzione tramite interprete</li>
+                <li><strong>Tipizzazione dinamica</strong> - Le variabili non hanno tipo fisso</li>
+                <li><strong>Multi-paradigma</strong> - Supporta OOP, funzionale e procedurale</li>
+            </ul>
+            <h4>Esempio di Codice</h4>
+            <pre class="code-example">numeri = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 quadrati_pari = [n**2 for n in numeri if n % 2 == 0]
 print(f"Quadrati dei numeri pari: {quadrati_pari}")</pre>
             `
         },
         java: {
-            title: "Linguaggio Java - Approfondimento Accademico",
+            title: "Linguaggio Java - Approfondimento",
             content: `
-                <h4>📅 Contesto Storico</h4>
-                <p>Java fu sviluppato da James Gosling alla Sun Microsystems, rilasciato nel 1995. Il motto è "Write Once, Run Anywhere".</p>
-                
-                <h4>⚙️ Caratteristiche Tecniche</h4>
-                <ul>
-                    <li><strong>JVM</strong> - Java Virtual Machine esegue il bytecode</li>
-                    <li><strong>OOP puro</strong> - Tutto è un oggetto</li>
-                    <li><strong>Garbage Collection</strong> - Gestione automatica della memoria</li>
-                </ul>
-                
-                <h4>📝 Esempio di Codice</h4>
-                <pre class="code-example">
-public class Studente {
+            <h4>Contesto Storico</h4>
+            <p>Java fu sviluppato da James Gosling alla Sun Microsystems, rilasciato nel 1995. Il motto e' "Write Once, Run Anywhere".</p>
+            <h4>Caratteristiche Tecniche</h4>
+            <ul>
+                <li><strong>JVM</strong> - Java Virtual Machine esegue il bytecode</li>
+                <li><strong>OOP puro</strong> - Tutto e' un oggetto</li>
+                <li><strong>Garbage Collection</strong> - Gestione automatica della memoria</li>
+            </ul>
+            <h4>Esempio di Codice</h4>
+            <pre class="code-example">public class Studente {
     private String nome;
     private int eta;
     
@@ -84,293 +111,522 @@ public class Studente {
         }
     };
 
-    // Contenuti dettagliati per i progetti
     const projectDetails = {
         flutter: {
-            title: "AKnote - App per la gestione delle attività",
+            title: "AKnote - App per la gestione delle attivita'",
+            image: "/images/aknote-poster.jpg",
             content: `
-                <h4>📱 Descrizione del Progetto</h4>
-                <p>AKnote è un'applicazione mobile per la gestione delle note e delle attività quotidiane, sviluppata con Flutter e Dart.</p>
-                <h4>🛠️ Tecnologie Utilizzate</h4>
-                <ul><li>Flutter</li><li>Dart</li><li>Firebase</li><li>Provider</li></ul>
-                <h4>✨ Funzionalità</h4>
-                <ul><li>Registrazione e login</li><li>CRUD task</li><li>Sincronizzazione cloud</li></ul>
+            <h4>Descrizione del Progetto</h4>
+            <p>AKnote e' un'applicazione mobile per la gestione delle note e delle attivita' quotidiane, sviluppata con Flutter e Dart. Funziona su iOS e Android con un'unica base di codice.</p>
+            <h4>Tecnologie Utilizzate</h4>
+            <ul><li>Flutter</li><li>Dart</li><li>Firebase</li><li>Provider</li></ul>
+            <h4>Funzionalita'</h4>
+            <ul><li>Registrazione e login</li><li>CRUD task</li><li>Sincronizzazione cloud</li></ul>
             `
         },
         recart: {
             title: "Task Gariboldi - Portale gestionale aziendale",
+            image: "/images/taskG.png",
             content: `
-                <h4>🏢 Descrizione del Progetto</h4>
-                <p>Portale gestionale per azienda con dashboard interattiva, gestione task, clienti e dipendenti.</p>
-                <h4>🛠️ Tecnologie</h4>
-                <ul><li>JavaScript</li><li>Recart</li><li>Node.js</li><li>Firebase</li></ul>
-                <h4>✨ Funzionalità</h4>
-                <ul><li>Dashboard per ruoli</li><li>Export report PDF/Excel</li><li>Autenticazione</li></ul>
+            <h4>Descrizione del Progetto</h4>
+            <p>Portale gestionale per azienda con dashboard interattiva, gestione task, clienti e dipendenti. Include reportistica personalizzata ed esportazione dati.</p>
+            <h4>Tecnologie Utilizzate</h4>
+            <ul><li>JavaScript</li><li>Recart</li><li>Node.js</li><li>Firebase</li><li>JSON/ENV</li></ul>
+            <h4>Funzionalita'</h4>
+            <ul><li>Dashboard per ruoli</li><li>Export report PDF/Excel</li><li>Autenticazione</li></ul>
             `
         },
         website: {
             title: "Portfolio Creativo - Sito Web Professionale",
+            image: "/images/akstore.png",
             content: `
-                <h4>🌐 Descrizione del Progetto</h4>
-                <p>Sito web responsive con animazioni CSS avanzate per presentare progetti e competenze.</p>
-                <h4>🛠️ Tecnologie</h4>
-                <ul><li>HTML5</li><li>CSS3</li><li>JavaScript</li></ul>
-                <h4>✨ Caratteristiche</h4>
-                <ul><li>Design responsive</li><li>Animazioni CSS</li><li>SEO ottimizzato</li></ul>
+            <h4>Descrizione del Progetto</h4>
+            <p>Sito web responsive con animazioni CSS avanzate per presentare progetti e competenze. Design moderno e ottimizzato per i motori di ricerca.</p>
+            <h4>Tecnologie Utilizzate</h4>
+            <ul><li>HTML5</li><li>CSS3</li></ul>
+            <h4>Caratteristiche</h4>
+            <ul><li>Design responsive</li><li>Animazioni CSS</li><li>SEO ottimizzato</li></ul>
             `
         }
     };
 
-    let modalOverlay = null;
-    let modalContainer = null;
+    // --------------------------------------------------------
+    // 2. GESTIONE MODALE
+    // --------------------------------------------------------
+    let modalOverlay = null, modalContainer = null;
+    let lastFocusedElement = null;
 
     function closeModal() {
         if (modalOverlay) modalOverlay.remove();
         if (modalContainer) modalContainer.remove();
+        modalOverlay = null;
+        modalContainer = null;
         document.body.classList.remove('modal-open');
+        if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+            lastFocusedElement.focus();
+        }
     }
 
-    function openModal(title, content) {
+    function openModal(title, content, imageUrl = null) {
         closeModal();
+        lastFocusedElement = document.activeElement;
         modalOverlay = document.createElement('div');
         modalOverlay.className = 'modal-overlay';
+        modalOverlay.setAttribute('role', 'dialog');
+        modalOverlay.setAttribute('aria-modal', 'true');
+        modalOverlay.setAttribute('aria-label', title);
         modalContainer = document.createElement('div');
         modalContainer.className = 'modal-container';
+        let imageHtml = imageUrl ? `<img src="${imageUrl}" alt="Anteprima del progetto" class="modal-image" loading="lazy">` : '';
         modalContainer.innerHTML = `
-            <div class="modal-header"><h3>${title}</h3><button class="modal-close">×</button></div>
-            <div class="modal-body">${content}</div>
+            <div class="modal-header">
+                <h3>${title}</h3>
+                <button class="modal-close" aria-label="Chiudi modale">✕</button>
+            </div>
+            <div class="modal-body">
+                ${imageHtml}
+                ${content}
+            </div>
         `;
         document.body.appendChild(modalOverlay);
         document.body.appendChild(modalContainer);
         document.body.classList.add('modal-open');
-        modalContainer.querySelector('.modal-close').addEventListener('click', closeModal);
+
+        const closeBtn = modalContainer.querySelector('.modal-close');
+        closeBtn.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', closeModal);
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+        setTimeout(() => closeBtn.focus(), 100);
+
+        function escHandler(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', escHandler);
+            }
+        }
+        document.addEventListener('keydown', escHandler);
     }
 
-    // Click sulle card dei linguaggi
+    // Apertura modali dalle card dei linguaggi
     document.querySelectorAll('.lang-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const lang = card.getAttribute('data-lang');
-            if (lang && languageDetails[lang]) openModal(languageDetails[lang].title, languageDetails[lang].content);
-        });
-    });
-
-    // Click sulle card dei progetti
-    document.querySelectorAll('.progetto-reale-card').forEach(card => {
+        const btn = card.querySelector('.lang-card-btn');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const lang = card.getAttribute('data-lang');
+                if (lang && languageDetails[lang]) {
+                    openModal(languageDetails[lang].title, languageDetails[lang].content);
+                }
+            });
+        }
         card.addEventListener('click', (e) => {
-            if (e.target.closest('.btn-progetto')) return;
-            const project = card.getAttribute('data-project');
-            if (project && projectDetails[project]) openModal(projectDetails[project].title, projectDetails[project].content);
-        });
-    });
-
-    // Navigazione mobile
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    if (hamburger) hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
-
-    // Scroll navbar
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
-    });
-
-    // Contatori statistiche
-    const stats = document.querySelectorAll('.stat-number');
-    const animateNumbers = () => {
-        stats.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            if (!target) return;
-            const rect = stat.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0 && !stat.classList.contains('counted')) {
-                stat.classList.add('counted');
-                let current = 0;
-                const increment = target / 50;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) { stat.textContent = target.toLocaleString(); clearInterval(timer); }
-                    else stat.textContent = Math.floor(current).toLocaleString();
-                }, 30);
+            if (e.target.closest('.lang-card-btn')) return;
+            const lang = card.getAttribute('data-lang');
+            if (lang && languageDetails[lang]) {
+                openModal(languageDetails[lang].title, languageDetails[lang].content);
             }
         });
-    };
-    window.addEventListener('scroll', animateNumbers);
-    animateNumbers();
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                if (e.target.closest('.lang-card-btn')) return;
+                e.preventDefault();
+                card.click();
+            }
+        });
+    });
 
-    // Form supporto
+    document.querySelectorAll('.progetto-reale-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) return;
+            const project = card.getAttribute('data-project');
+            if (project && projectDetails[project]) {
+                const dettaglio = projectDetails[project];
+                openModal(dettaglio.title, dettaglio.content, dettaglio.image);
+            }
+        });
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                if (e.target.closest('a') || e.target.closest('button')) return;
+                e.preventDefault();
+                card.click();
+            }
+        });
+    });
+
+    // --------------------------------------------------------
+    // 3. MENU HAMBURGER MOBILE
+    // --------------------------------------------------------
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            const isActive = navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', isActive);
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
+    // --------------------------------------------------------
+    // 4. EFFETTO SCROLL SULLA NAVBAR E TORNA SU
+    // --------------------------------------------------------
+    const navbar = document.querySelector('.navbar');
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        if (navbar) {
+            if (scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+        if (backToTop) {
+            if (scrollY > 400) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+    }, { passive: true });
+
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // --------------------------------------------------------
+    // 5. ANIMAZIONE CONTATORI STATISTICHE
+    // --------------------------------------------------------
+    const statNumbers = document.querySelectorAll('.stat-number');
+    const countedStats = new Set();
+
+    function animateNumbers() {
+        statNumbers.forEach(stat => {
+            if (countedStats.has(stat)) return;
+            const target = parseInt(stat.getAttribute('data-target'));
+            if (!target && target !== 0) return;
+            const rect = stat.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 50 && rect.bottom > 0) {
+                countedStats.add(stat);
+                let current = 0;
+                const duration = 1500;
+                const steps = 60;
+                const increment = target / steps;
+                const interval = duration / steps;
+                let step = 0;
+
+                function stepCounter() {
+                    step++;
+                    current = Math.min(increment * step, target);
+                    stat.textContent = Math.floor(current).toLocaleString();
+                    if (step < steps) {
+                        setTimeout(stepCounter, interval);
+                    } else {
+                        stat.textContent = target.toLocaleString();
+                    }
+                }
+                stepCounter();
+            }
+        });
+    }
+    window.addEventListener('scroll', animateNumbers, { passive: true });
+    setTimeout(animateNumbers, DURATION + 500);
+
+    // --------------------------------------------------------
+    // 6. INVIO FORM SUPPORTO (AJAX)
+    // --------------------------------------------------------
     const form = document.getElementById('supportoForm');
     const successDiv = document.getElementById('formSuccess');
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Invio in corso...';
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span>Invio in corso...</span>';
             submitBtn.disabled = true;
             try {
                 const formData = new FormData(form);
-                const response = await fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
                 if (response.ok) {
-                    successDiv.style.display = 'block';
+                    if (successDiv) successDiv.style.display = 'block';
                     form.reset();
-                    setTimeout(() => successDiv.style.display = 'none', 5000);
-                } else throw new Error('Errore');
-            } catch (error) { alert('Errore nell\'invio. Riprova più tardi.'); }
-            finally { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+                    setTimeout(() => { if (successDiv) successDiv.style.display = 'none'; }, 5000);
+                } else {
+                    throw new Error('Errore nella risposta del server');
+                }
+            } catch (error) {
+                alert('Errore durante l\'invio. Riprova più tardi.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
         });
     }
 
-    // Smooth scroll
+    // --------------------------------------------------------
+    // 7. SMOOTH SCROLL PER ANCORE INTERNE
+    // --------------------------------------------------------
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target && this.getAttribute('href') !== '#') {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const target = document.querySelector(targetId);
+            if (target && navbar) {
                 e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if (navMenu && navMenu.classList.contains('active')) navMenu.classList.remove('active');
+                const navHeight = navbar.offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                if (navMenu && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    if (hamburger) hamburger.classList.remove('active');
+                    if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+                }
             }
         });
     });
 
-    // Animazione barre statistiche
+    // --------------------------------------------------------
+    // 8. ANIMAZIONE BARRE STATISTICHE LINGUAGGI
+    // --------------------------------------------------------
     const statBars = document.querySelectorAll('.stat-fill');
-    const animateStatBars = () => {
+    const animatedBars = new Set();
+
+    function animateStatBars() {
         statBars.forEach(bar => {
+            if (animatedBars.has(bar)) return;
             const rect = bar.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0 && !bar.classList.contains('animated')) {
-                bar.classList.add('animated');
-                const width = bar.style.width;
+            if (rect.top < window.innerHeight - 30 && rect.bottom > 0) {
+                animatedBars.add(bar);
+                const targetWidth = bar.style.width;
                 bar.style.width = '0';
-                setTimeout(() => bar.style.width = width, 100);
+                bar.style.transition = 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        bar.style.width = targetWidth;
+                    });
+                });
             }
         });
-    };
-    window.addEventListener('scroll', animateStatBars);
-    animateStatBars();
+    }
+    window.addEventListener('scroll', animateStatBars, { passive: true });
+    setTimeout(animateStatBars, DURATION + 300);
 
-    // Link attivo durante scroll
+    // --------------------------------------------------------
+    // 9. EVIDENZIA LINK ATTIVO NELLA NAV
+    // --------------------------------------------------------
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     window.addEventListener('scroll', () => {
         let current = '';
-        const scrollPosition = window.scrollY + 100;
+        const scrollPosition = window.scrollY + 120;
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) current = section.getAttribute('id');
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
         });
         navLinks.forEach(link => {
             link.classList.remove('active');
             const href = link.getAttribute('href');
-            if (href === `#${current}`) link.classList.add('active');
-            else if (current === '' && href === '#home') link.classList.add('active');
+            if (href === `#${current}`) {
+                link.classList.add('active');
+            } else if (current === '' && href === '#home') {
+                link.classList.add('active');
+            }
+        });
+    }, { passive: true });
+
+    // --------------------------------------------------------
+    // 10. CHATBOT AI - KNOWLEDGE BASE
+    // --------------------------------------------------------
+    (function() {
+        const KNOWLEDGE_BASE = [
+            { keywords: ["ciao", "salve", "buongiorno", "buonasera", "hey"], response: "👋 Ciao! Sono l'assistente per i linguaggi di programmazione. Digita `aiuto` per tutti gli argomenti!" },
+            { keywords: ["aiuto", "help", "cosa sai fare", "argomenti"], response: "📚 **ARGOMENTI DISPONIBILI**\n\n**LINGUAGGI:** Python, Java, C, C++, JavaScript, Rust\n**CONCETTI:** OOP, compilato vs interpretato\n**STRUMENTI:** Framework, API, Git\n**WEB:** Frontend vs Backend\n**CONSIGLI:** quale linguaggio studiare" },
+            { keywords: ["grazie", "thank", "grazie mille"], response: "😊 Prego! Sono felice di essere stato d'aiuto!" },
+            { keywords: ["cos'è un linguaggio di programmazione", "definizione linguaggio"], response: "💻 **COS'È UN LINGUAGGIO DI PROGRAMMAZIONE**\n\nÈ un insieme di regole che permette di scrivere istruzioni eseguibili da un computer.\n\nEsistono oltre 700 linguaggi di programmazione!" },
+            { keywords: ["python", "cos'è python"], response: "🐍 **PYTHON**\n\nCreato da Guido van Rossum nel 1991.\n• Interpretato, tipizzazione dinamica\n• Sintassi chiara e leggibile\n• Perfetto per AI, Data Science, Web" },
+            { keywords: ["java", "cos'è java"], response: "☕ **JAVA**\n\nCreato da James Gosling nel 1995.\n• OOP puro, eseguito su JVM\n• 'Write Once, Run Anywhere'\n• Standard per applicazioni enterprise" },
+            { keywords: ["c linguaggio", "linguaggio c"], response: "⚡ **LINGUAGGIO C**\n\nCreato da Dennis Ritchie nel 1972.\n• Linguaggio procedurale\n• Controllo totale della memoria\n• Usato per OS, embedded, database" },
+            { keywords: ["javascript", "js"], response: "🟨 **JAVASCRIPT**\n\nCreato da Brendan Eich nel 1995.\n• Il linguaggio del web\n• Frontend (React, Vue) e Backend (Node.js)\n• Il più diffuso al mondo!" },
+            { keywords: ["oop", "programmazione orientata oggetti"], response: "🎯 **PROGRAMMAZIONE ORIENTATA AGLI OGGETTI (OOP)**\n\n**4 PRINCIPI:**\n1. Incapsulamento\n2. Ereditarietà\n3. Polimorfismo\n4. Astrazione" },
+            { keywords: ["compilato interpretato", "differenza compilato interpretato"], response: "📊 **COMPILATO vs INTERPRETATO**\n\n| Caratteristica | COMPILATO | INTERPRETATO |\n|---------------|-----------|--------------|\n| Velocità | ⚡⚡⚡ Molto veloce | 🐢 Più lento |\n| Portabilità | Richiede ricompilazione | Qualsiasi piattaforma |\n| Debugging | Più difficile | Interattivo |" },
+            { keywords: ["frontend backend", "differenza frontend backend"], response: "🌐 **FRONTEND vs BACKEND**\n\n| Aspetto | FRONTEND | BACKEND |\n|---------|----------|---------|\n| Tecnologie | HTML, CSS, JS | Python, Java, PHP |\n| Dove gira | Browser | Server |\n| Compiti | UI, animazioni | Database, API |" }
+        ];
+
+        const BLACKLIST = ["calcio", "sport", "politica", "film", "musica", "cucina"];
+
+        function normalizzaTesto(testo) {
+            return testo.toLowerCase()
+                .replace(/[àáâä]/g, 'a').replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i').replace(/[òóôö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u').replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function ePertinente(testo) {
+            for (let black of BLACKLIST) {
+                if (testo.includes(black)) return false;
+            }
+            return true;
+        }
+
+        function trovaRisposta(domandaNorm) {
+            for (const entry of KNOWLEDGE_BASE) {
+                for (const kw of entry.keywords) {
+                    if (domandaNorm.includes(normalizzaTesto(kw))) {
+                        return entry.response;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function rispondi(domandaUtente) {
+            if (!domandaUtente || !domandaUtente.trim()) {
+                return "🙂 Per favore, scrivi una domanda.";
+            }
+
+            const domandaNorm = normalizzaTesto(domandaUtente);
+
+            if (domandaNorm === "esci") {
+                return "EXIT";
+            }
+
+            if (!ePertinente(domandaNorm)) {
+                return "⚠️ Sono specializzato solo in **linguaggi di programmazione**.\n\nProva con: 'cos'è Python?' o 'differenza C e C++'";
+            }
+
+            const risposta = trovaRisposta(domandaNorm);
+            if (risposta) {
+                return risposta;
+            } else {
+                return "🤔 Non ho trovato una risposta precisa.\n\nProva a chiedermi:\n• 'cos'è Python?'\n• 'cos'è Java?'\n• 'differenza frontend backend'";
+            }
+        }
+
+        // Integrazione DOM
+        const toggleBtn = document.getElementById('chatbotToggle');
+        const closeBtn = document.getElementById('chatbotClose');
+        const windowEl = document.getElementById('chatbotWindow');
+        const messagesEl = document.getElementById('chatbotMessages');
+        const inputEl = document.getElementById('chatbotInput');
+        const sendBtn = document.getElementById('chatbotSend');
+
+        function aggiungiMessaggio(testo, tipo) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message ' + tipo;
+            msgDiv.innerHTML = testo.replace(/\n/g, '<br>');
+            messagesEl.appendChild(msgDiv);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function mostraTyping() {
+            const div = document.createElement('div');
+            div.className = 'message bot';
+            div.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+            div.id = 'typing-indicator';
+            messagesEl.appendChild(div);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function rimuoviTyping() {
+            const el = document.getElementById('typing-indicator');
+            if (el) el.remove();
+        }
+
+        function inviaMessaggio() {
+            const testo = inputEl.value.trim();
+            if (!testo) return;
+
+            aggiungiMessaggio(testo, 'user');
+            inputEl.value = '';
+            mostraTyping();
+
+            setTimeout(() => {
+                rimuoviTyping();
+                const risposta = rispondi(testo);
+                if (risposta === "EXIT") {
+                    aggiungiMessaggio("Arrivederci! Alla prossima.", 'bot');
+                    setTimeout(() => {
+                        windowEl.classList.add('hidden');
+                        if (toggleBtn) toggleBtn.style.display = 'flex';
+                    }, 1500);
+                } else {
+                    aggiungiMessaggio(risposta, 'bot');
+                }
+            }, 500);
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                windowEl.classList.remove('hidden');
+                toggleBtn.style.display = 'none';
+                setTimeout(() => inputEl?.focus(), 150);
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                windowEl.classList.add('hidden');
+                if (toggleBtn) toggleBtn.style.display = 'flex';
+                if (toggleBtn) toggleBtn.focus();
+            });
+        }
+
+        if (sendBtn) sendBtn.addEventListener('click', inviaMessaggio);
+
+        if (inputEl) {
+            inputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    inviaMessaggio();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && windowEl && !windowEl.classList.contains('hidden')) {
+                windowEl.classList.add('hidden');
+                if (toggleBtn) toggleBtn.style.display = 'flex';
+                if (toggleBtn) toggleBtn.focus();
+            }
+        });
+    })();
+
+    // --------------------------------------------------------
+    // 11. GESTIONE ERRORI IMMAGINI
+    // --------------------------------------------------------
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('error', function() {
+            this.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.style.cssText = 'width:' + (this.width || 60) + 'px;height:' + (this.height || 60) + 'px;background:var(--dark-surface);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;';
+            placeholder.textContent = 'IMG';
+            if (this.parentNode) {
+                this.parentNode.insertBefore(placeholder, this);
+            }
         });
     });
-})();
 
-// ============================================
-// CHATBOT AI - VERSIONE MIGLIORATA v3.0
-// ============================================
-
-(function() {
-    const KNOWLEDGE_BASE = [
-        { keywords: ["ciao", "salve", "buongiorno"], response: "👋 Ciao! Sono un assistente specializzato in linguaggi di programmazione. Digita 'aiuto' per tutti gli argomenti!" },
-        { keywords: ["aiuto", "help", "cosa sai fare"], response: "📚 ARGOMENTI: Python, Java, C, C++, JavaScript, OOP, Compilato/Interpretato, Framework, API, Git, Frontend/Backend. Comandi: 'dimmi di più', 'cosa mi hai detto prima'" },
-        { keywords: ["grazie"], response: "😊 Prego! Chiedimi pure altro!" },
-        { keywords: ["linguaggio programmazione", "cos'è un linguaggio"], response: "💻 Un linguaggio di programmazione è un insieme di regole per scrivere istruzioni eseguibili da un computer. Esistono oltre 700 linguaggi!" },
-        { keywords: ["differenza compilato interpretato"], response: "📊 Compilato (C, C++): più VELOCE. Interpretato (Python, JS): più FLESSIBILE." },
-        { keywords: ["frontend", "backend"], response: "🌐 Frontend (HTML/CSS/JS): ciò che vedi. Backend (Python/Java): ciò che non vedi (server, database)." },
-        { keywords: ["git", "github"], response: "📦 Git tiene traccia delle modifiche. GitHub è la piattaforma cloud per ospitare repository." },
-        { keywords: ["quale linguaggio studiare", "primo linguaggio"], response: "🎓 Python è il più consigliato per iniziare! Sintassi semplice e tanti ambiti (AI, Dati, Web)." },
-        { keywords: ["quanto tempo", "tempo per imparare"], response: "⏱️ Base: 2-3 mesi. Autonomia: 6-12 mesi. Lavorare: 1-2 anni. Esperto: 3-5+ anni." },
-        { keywords: ["python"], response: "🐍 Python (1991, Guido van Rossum) - Interpretato, sintassi semplice. Usato per AI, Data Science, Web." },
-        { keywords: ["java"], response: "☕ Java (1995, James Gosling) - OOP, 'Write Once Run Anywhere'. Usato per Enterprise, Android." },
-        { keywords: ["c", "linguaggio c"], response: "⚡ C (1972, Dennis Ritchie) - Linguaggio procedurale, basso livello. Padre di tutti i linguaggi moderni." },
-        { keywords: ["c++"], response: "➕ C++ (1985, Bjarne Stroustrup) - Estensione di C con OOP. Usato per videogiochi, browser." },
-        { keywords: ["javascript", "js"], response: "🟨 JavaScript (1995, Brendan Eich) - Linguaggio del web. Frontend e backend con Node.js." },
-        { keywords: ["oop", "orientato agli oggetti"], response: "🎯 OOP - 4 pilastri: Incapsulamento, Ereditarietà, Polimorfismo, Astrazione." },
-        { keywords: ["framework", "libreria"], response: "📚 Libreria: TU controlli. Framework: controlla LUI (inversione del controllo)." },
-        { keywords: ["api", "rest"], response: "🔌 API permettono comunicazione tra sistemi. REST usa HTTP (GET, POST, PUT, DELETE)." }
-    ];
-
-    const BLACKLIST = ["calcio", "sport", "politica", "film", "musica", "cucina", "ricetta", "meteo"];
-    let ultimoArgomento = null;
-    let storico = [];
-
-    function normalizza(text) {
-        return text.toLowerCase().replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
-    }
-
-    function contieneNegazione(text) {
-        return ["non è", "non e'", "non sia", "ma non"].some(neg => text.includes(neg));
-    }
-
-    function èPertinente(text) {
-        if (["ciao", "salve", "aiuto", "grazie"].some(w => text.includes(w))) return true;
-        if (BLACKLIST.some(b => text.includes(b))) return false;
-        return ["linguaggio", "programmazione", "python", "java", "javascript", "c++", "oop", "api", "git"].some(k => text.includes(k));
-    }
-
-    function trovaRisposta(domanda) {
-        const domandaNorm = normalizza(domanda);
-        if (contieneNegazione(domandaNorm)) return "⚠️ Ho notato una negazione. Puoi riformulare?";
-        if (!èPertinente(domandaNorm)) return "⚠️ Sono specializzato solo in linguaggi di programmazione. Prova con 'cos'è Python?' o 'aiuto'.";
-        
-        if (domandaNorm.includes("dimmi di più") && ultimoArgomento) return `📚 APPROFONDIMENTO\n\n${ultimoArgomento}`;
-        if (domandaNorm.includes("cosa mi hai detto prima") && storico.length) return `📜 ULTIMA RISPOSTA:\n\n${storico[storico.length-1]}`;
-        
-        let bestScore = 0, bestResponse = null;
-        for (const entry of KNOWLEDGE_BASE) {
-            let score = entry.keywords.some(k => domandaNorm.includes(k)) ? 2 : 0;
-            if (score > bestScore) { bestScore = score; bestResponse = entry.response; }
-        }
-        if (bestResponse) { ultimoArgomento = bestResponse; storico.push(bestResponse); if (storico.length > 5) storico.shift(); return bestResponse; }
-        return "🤔 Non ho trovato risposta. Prova con 'cos'è Python?' o 'aiuto'.";
-    }
-
-    // UI Chatbot
-    const toggleBtn = document.getElementById('chatbotToggle');
-    const closeBtn = document.getElementById('chatbotClose');
-    const windowEl = document.getElementById('chatbotWindow');
-    const messagesEl = document.getElementById('chatbotMessages');
-    const inputEl = document.getElementById('chatbotInput');
-    const sendBtn = document.getElementById('chatbotSend');
-
-    function aggiungiMessaggio(testo, tipo) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message ' + tipo;
-        msgDiv.innerHTML = testo.replace(/\n/g, '<br>');
-        messagesEl.appendChild(msgDiv);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-
-    function mostraTyping() {
-        const div = document.createElement('div');
-        div.className = 'message bot';
-        div.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
-        div.id = 'typing-indicator';
-        messagesEl.appendChild(div);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-
-    function rimuoviTyping() { document.getElementById('typing-indicator')?.remove(); }
-
-    function inviaMessaggio() {
-        const testo = inputEl.value.trim();
-        if (!testo) return;
-        aggiungiMessaggio(testo, 'user');
-        inputEl.value = '';
-        mostraTyping();
-        setTimeout(() => {
-            rimuoviTyping();
-            aggiungiMessaggio(trovaRisposta(testo), 'bot');
-        }, 600);
-    }
-
-    if (toggleBtn) toggleBtn.addEventListener('click', () => { windowEl.classList.remove('hidden'); toggleBtn.style.display = 'none'; setTimeout(() => inputEl.focus(), 100); });
-    if (closeBtn) closeBtn.addEventListener('click', () => { windowEl.classList.add('hidden'); toggleBtn.style.display = 'flex'; });
-    if (sendBtn) sendBtn.addEventListener('click', inviaMessaggio);
-    if (inputEl) inputEl.addEventListener('keypress', (e) => { if (e.key === 'Enter') inviaMessaggio(); });
+    console.log('AK Coding - Tesina Linguaggi di Programmazione');
+    console.log('Autore: Amr Ahmed Kotb | Classe 3I | A.S. 2025/2026');
 })();
